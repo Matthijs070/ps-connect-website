@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--
+  Netlify Forms detection helper.
+  Netlify scans static HTML at build time to register forms.
+  Our actual form lives in the React contact page, but Netlify needs this
+  static markup to know the form exists. Do not delete.
+-->
+<html>
+  <body>
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="naam" />
+      <input type="text" name="bedrijf" />
+      <input type="email" name="email" />
+      <input type="tel" name="telefoon" />
+      <select name="onderwerp">
+        <option>Offerte aanvragen</option>
+        <option>Algemene vraag</option>
+        <option>Inschrijving flexkracht</option>
+        <option>Vacature-vraag</option>
+        <option>Anders</option>
+      </select>
+      <textarea name="bericht"></textarea>
+    </form>
+  </body>
+</html>

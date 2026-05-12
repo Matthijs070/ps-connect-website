@@ -1,83 +1,1694 @@
+'use client';
+
 // =========================================================
 // PS-Connect website — central component library
 // All page components live here. Pages in app/ import from this file.
-//
 // `c` is the JS mirror of design-system/colors_and_type.css.
-// Use for inline style overrides; the CSS file remains source of truth.
 // =========================================================
 
+import { useState } from 'react';
+import {
+  ArrowRight, Menu, X, Check,
+  Sprout, Truck, UtensilsCrossed,
+  MessageCircle, Home as HomeIcon, Users, ClipboardCheck,
+  Phone, Mail, MapPin, Linkedin,
+  Award, Shield, FileCheck,
+  Briefcase, Heart, Building2,
+  ChevronRight,
+} from 'lucide-react';
+
 export const c = {
-  // Brand greens
-  green900: '#0E5A23',
-  green800: '#128A2F',
-  green700: '#1AA63A',
-  green600: '#25C04A',
-  green500: '#3BD962',
-  green400: '#5FE883',
-  green300: '#97F2AE',
-  green200: '#C9F8D6',
-  green100: '#E8FBEE',
-  green50:  '#F4FDF7',
-
-  // Amber accent (Fase 2)
-  amber700: '#B97309',
-  amber600: '#D08410',
-  amber500: '#F59E0B',
-  amber100: '#FEF3C7',
-  amber50:  '#FFFBEB',
-
-  // Neutrals (cool slate)
-  ink900: '#0F1A14',
-  ink800: '#1C2A22',
-  ink700: '#2E3B33',
-  ink600: '#4A5A50',
-  ink500: '#6B7A71',
-  ink400: '#94A19A',
-  ink300: '#BFC8C2',
-  ink200: '#DDE3DF',
-  ink100: '#EEF1EF',
-  ink50:  '#F7F8F7',
-  white:  '#FFFFFF',
-
-  // Semantic
-  success: '#1AA63A',
-  warning: '#E8A93C',
-  danger:  '#D94A3B',
-  info:    '#2C7BD9',
+  green900: '#0E5A23', green800: '#128A2F', green700: '#1AA63A', green600: '#25C04A',
+  green500: '#3BD962', green400: '#5FE883', green300: '#97F2AE', green200: '#C9F8D6',
+  green100: '#E8FBEE', green50: '#F4FDF7',
+  amber700: '#B97309', amber600: '#D08410', amber500: '#F59E0B',
+  amber100: '#FEF3C7', amber50: '#FFFBEB',
+  ink900: '#0F1A14', ink800: '#1C2A22', ink700: '#2E3B33', ink600: '#4A5A50',
+  ink500: '#6B7A71', ink400: '#94A19A', ink300: '#BFC8C2', ink200: '#DDE3DF',
+  ink100: '#EEF1EF', ink50: '#F7F8F7', white: '#FFFFFF',
+  success: '#1AA63A', warning: '#E8A93C', danger: '#D94A3B', info: '#2C7BD9',
 };
 
 // =========================================================
-// Nav — placeholder. Replaced with full nav in Stap 3.2.
+// Container — central max-width wrapper used everywhere
 // =========================================================
-export function Nav() {
+export function Container({ children, style }) {
   return (
-    <nav style={{
-      padding: '20px 24px',
-      borderBottom: `1px solid ${c.ink200}`,
-      fontFamily: 'var(--font-display)',
-      fontWeight: 800,
-      fontSize: 20,
-      color: c.green800,
-      letterSpacing: '-0.02em',
-    }}>
-      PS-Connect
-    </nav>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', ...style }}>
+      {children}
+    </div>
   );
 }
 
 // =========================================================
-// Footer — placeholder. Replaced with full footer later.
+// Nav — responsive top navigation with mobile drawer
+// =========================================================
+export function Nav() {
+  const [open, setOpen] = useState(false);
+
+  const navItems = [
+    { href: '/voor-werkgevers', label: 'Voor werkgevers' },
+    { href: '/werkwijze', label: 'Werkwijze' },
+    { href: '/pakketten', label: 'Pakketten' },
+    { href: '/cases', label: 'Cases' },
+    { href: '/over-ons', label: 'Over ons' },
+    { href: '/vacatures', label: 'Vacatures' },
+  ];
+
+  return (
+    <>
+      <nav style={{
+        background: c.white,
+        borderBottom: `1px solid ${c.ink200}`,
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+      }}>
+        <Container style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '16px 24px',
+        }}>
+          <a href="/" style={{
+            fontFamily: 'var(--font-display)',
+            fontWeight: 900,
+            fontSize: 22,
+            color: c.green800,
+            letterSpacing: '-0.02em',
+            textDecoration: 'none',
+          }}>
+            PS-Connect
+          </a>
+
+          {/* Desktop nav */}
+          <div className="nav-desktop" style={{ display: 'none', gap: 28, alignItems: 'center' }}>
+            {navItems.map(item => (
+              <a key={item.href} href={item.href} style={{
+                color: c.ink700,
+                fontSize: 15,
+                fontWeight: 600,
+                textDecoration: 'none',
+              }}>
+                {item.label}
+              </a>
+            ))}
+            <a href="/contact" className="btn btn-primary" style={{ fontSize: 14, padding: '10px 18px' }}>
+              Offerte aanvragen
+            </a>
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            className="nav-mobile-btn"
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: 8, color: c.ink900, display: 'flex',
+            }}
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </Container>
+
+        {/* Mobile drawer */}
+        {open && (
+          <div className="nav-mobile-drawer" style={{
+            borderTop: `1px solid ${c.ink200}`,
+            background: c.white,
+            padding: '16px 24px 24px',
+          }}>
+            {navItems.map(item => (
+              <a key={item.href} href={item.href}
+                onClick={() => setOpen(false)}
+                style={{
+                  display: 'block',
+                  padding: '14px 0',
+                  color: c.ink900,
+                  fontSize: 16,
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  borderBottom: `1px solid ${c.ink100}`,
+                }}>
+                {item.label}
+              </a>
+            ))}
+            <a href="/contact"
+              onClick={() => setOpen(false)}
+              className="btn btn-primary"
+              style={{ marginTop: 16, width: '100%', justifyContent: 'center' }}
+            >
+              Offerte aanvragen <ArrowRight size={16} strokeWidth={2.5} />
+            </a>
+          </div>
+        )}
+      </nav>
+
+      <style>{`
+        @media (min-width: 900px) {
+          .nav-desktop { display: flex !important; }
+          .nav-mobile-btn { display: none !important; }
+          .nav-mobile-drawer { display: none !important; }
+        }
+      `}</style>
+    </>
+  );
+}
+
+// =========================================================
+// Footer — full footer with sections, links, legal
 // =========================================================
 export function Footer() {
   return (
     <footer style={{
-      padding: '40px 24px',
-      borderTop: `1px solid ${c.ink200}`,
-      color: c.ink500,
-      fontSize: 14,
-      textAlign: 'center',
+      background: c.ink900,
+      color: c.ink300,
+      padding: '64px 24px 32px',
+      marginTop: 0,
     }}>
-      © {new Date().getFullYear()} PS-Connect B.V.
+      <Container>
+        <div className="footer-grid" style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr',
+          gap: 40,
+          marginBottom: 48,
+        }}>
+          {/* Column 1 — brand + tagline */}
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 900,
+              fontSize: 24,
+              color: c.white,
+              letterSpacing: '-0.02em',
+              marginBottom: 12,
+            }}>
+              PS-Connect
+            </div>
+            <p style={{ color: c.ink300, fontSize: 14, lineHeight: 1.5, marginBottom: 16, maxWidth: 280 }}>
+              Uitzendpartner voor agri, tuinbouw en logistiek in Noord-Holland. Sinds 2008.
+            </p>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <a href="https://www.linkedin.com" aria-label="LinkedIn"
+                style={{ color: c.ink300, display: 'flex' }}>
+                <Linkedin size={20} />
+              </a>
+            </div>
+          </div>
+
+          {/* Column 2 — voor werkgevers */}
+          <FooterCol title="Voor werkgevers" links={[
+            { href: '/voor-werkgevers', label: 'Sectoren' },
+            { href: '/werkwijze', label: 'Werkwijze' },
+            { href: '/pakketten', label: 'Pakketten' },
+            { href: '/cases', label: 'Cases' },
+          ]} />
+
+          {/* Column 3 — voor flexkrachten */}
+          <FooterCol title="Voor flexkrachten" links={[
+            { href: '/vacatures', label: 'Vacatures' },
+            { href: '/werken-bij', label: 'Werken bij PS-Connect' },
+          ]} />
+
+          {/* Column 4 — bedrijf */}
+          <FooterCol title="Bedrijf" links={[
+            { href: '/over-ons', label: 'Over ons' },
+            { href: '/contact', label: 'Contact' },
+          ]} />
+
+          {/* Column 5 — contact */}
+          <div>
+            <div style={{
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: c.ink400,
+              marginBottom: 16,
+            }}>
+              Contact
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 14 }}>
+              <a href="tel:+31000000000" style={{ color: c.ink300, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Phone size={14} /> [Telefoonnummer]
+              </a>
+              <a href="mailto:info@ps-connect.nl" style={{ color: c.ink300, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Mail size={14} /> info@ps-connect.nl
+              </a>
+              <div style={{ color: c.ink300, display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                <MapPin size={14} style={{ marginTop: 3, flexShrink: 0 }} />
+                <span>[Vestigingsadres]<br />Den Helder / Alkmaar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div style={{
+          borderTop: `1px solid ${c.ink800}`,
+          paddingTop: 24,
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 16,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontSize: 13,
+          color: c.ink500,
+        }}>
+          <div>© {new Date().getFullYear()} PS-Connect B.V. Alle rechten voorbehouden.</div>
+          <div style={{ display: 'flex', gap: 20 }}>
+            <a href="/privacy" style={{ color: c.ink500, textDecoration: 'none' }}>Privacyverklaring</a>
+            <a href="/algemene-voorwaarden" style={{ color: c.ink500, textDecoration: 'none' }}>Algemene voorwaarden</a>
+          </div>
+        </div>
+      </Container>
+
+      <style>{`
+        @media (min-width: 700px) {
+          .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr !important; }
+        }
+      `}</style>
     </footer>
+  );
+}
+
+function FooterCol({ title, links }) {
+  return (
+    <div>
+      <div style={{
+        fontSize: 12,
+        fontWeight: 700,
+        letterSpacing: '0.12em',
+        textTransform: 'uppercase',
+        color: c.ink400,
+        marginBottom: 16,
+      }}>
+        {title}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {links.map(l => (
+          <a key={l.href} href={l.href} style={{ color: c.ink300, fontSize: 14, textDecoration: 'none' }}>
+            {l.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// =========================================================
+// PageHeader — used on all non-home pages
+// =========================================================
+export function PageHeader({ eyebrow, title, intro }) {
+  return (
+    <section style={{
+      background: c.green50,
+      padding: 'clamp(56px, 8vw, 88px) 24px',
+      borderBottom: `1px solid ${c.ink100}`,
+    }}>
+      <Container>
+        <p className="eyebrow">{eyebrow}</p>
+        <h1 className="display-m" style={{ marginTop: 12, marginBottom: 20, color: c.ink900, maxWidth: 880 }}>
+          {title}
+        </h1>
+        {intro && (
+          <p style={{ fontSize: 18, lineHeight: 1.55, color: c.ink700, maxWidth: 720 }}>
+            {intro}
+          </p>
+        )}
+      </Container>
+    </section>
+  );
+}
+
+// =========================================================
+// Section — generic content section wrapper
+// =========================================================
+export function Section({ children, background, style }) {
+  return (
+    <section style={{
+      background: background || c.white,
+      padding: 'clamp(56px, 8vw, 96px) 24px',
+      ...style,
+    }}>
+      <Container>{children}</Container>
+    </section>
+  );
+}
+
+export function SectionHeader({ eyebrow, title, intro, align = 'left' }) {
+  return (
+    <div style={{ textAlign: align, marginBottom: 48, maxWidth: align === 'center' ? 720 : 880, marginLeft: align === 'center' ? 'auto' : 0, marginRight: align === 'center' ? 'auto' : 0 }}>
+      {eyebrow && <p className="eyebrow" style={{ marginBottom: 8 }}>{eyebrow}</p>}
+      <h2 className="display-m" style={{ color: c.ink900, marginBottom: intro ? 16 : 0 }}>{title}</h2>
+      {intro && (
+        <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink600 }}>{intro}</p>
+      )}
+    </div>
+  );
+}
+
+// =========================================================
+// HOMEPAGE — Section 1: Hero
+// =========================================================
+function StatTile({ value, label }) {
+  return (
+    <div style={{
+      background: c.white,
+      border: `1px solid ${c.ink200}`,
+      borderRadius: 16,
+      padding: '24px 28px',
+      boxShadow: '0 1px 2px rgba(15, 26, 20, 0.04)',
+    }}>
+      <div className="num" style={{ fontSize: 44, fontWeight: 700, color: c.green800, lineHeight: 1, marginBottom: 10 }}>
+        {value}
+      </div>
+      <div style={{ fontSize: 14, color: c.ink600, fontWeight: 500, lineHeight: 1.35 }}>
+        {label}
+      </div>
+    </div>
+  );
+}
+
+export function Hero() {
+  return (
+    <section style={{
+      background: c.green50,
+      padding: 'clamp(56px, 9vw, 96px) 24px',
+      borderBottom: `1px solid ${c.ink100}`,
+    }}>
+      <div className="hero-grid" style={{
+        maxWidth: 1200, margin: '0 auto',
+        display: 'grid', gridTemplateColumns: '1fr',
+        gap: 48, alignItems: 'center',
+      }}>
+        <div>
+          <p className="eyebrow">Uitzendpartner · NH-Kop · Sinds 2008</p>
+          <h1 className="display-l" style={{ marginTop: 16, marginBottom: 24, color: c.ink900 }}>
+            Bollen, glastuinbouw, NH-Kop.<br />Sinds 2008.
+          </h1>
+          <p style={{ fontSize: 18, lineHeight: 1.55, maxWidth: 560, color: c.ink700, marginBottom: 32 }}>
+            Wij koppelen 19 werkgevers in agri, tuinbouw en logistiek aan
+            gemotiveerde flexkrachten. Eigen huisvesting, eigen back-office,
+            en Pascal aan de lijn als u belt.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <a href="/contact" className="btn btn-primary">
+              Offerte aanvragen <ArrowRight size={16} strokeWidth={2.5} />
+            </a>
+            <a href="/pakketten" className="btn btn-secondary">
+              Pakketten bekijken
+            </a>
+          </div>
+        </div>
+        <div style={{ display: 'grid', gap: 16 }}>
+          <StatTile value="19" label="Actieve klanten in NH-Kop" />
+          <StatTile value="4,2 jr" label="Gemiddelde samenwerking" />
+          <StatTile value="2008" label="Opgericht in Noord-Holland" />
+        </div>
+      </div>
+      <style>{`
+        @media (min-width: 820px) {
+          .hero-grid { grid-template-columns: 1.5fr 1fr !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+// =========================================================
+// HOMEPAGE — Section 2: Sectoren
+// =========================================================
+function SectorCard({ icon, title, body, href }) {
+  return (
+    <a href={href} style={{
+      display: 'block',
+      background: c.white,
+      border: `1px solid ${c.ink200}`,
+      borderRadius: 16,
+      padding: 32,
+      textDecoration: 'none',
+      color: c.ink900,
+      transition: 'all 220ms cubic-bezier(0.22,1,0.36,1)',
+    }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = c.green700; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = c.ink200; e.currentTarget.style.transform = 'translateY(0)'; }}
+    >
+      <div style={{
+        width: 56, height: 56, borderRadius: 12,
+        background: c.green100, color: c.green800,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        marginBottom: 20,
+      }}>
+        {icon}
+      </div>
+      <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 12, color: c.ink900 }}>{title}</h3>
+      <p style={{ fontSize: 15, lineHeight: 1.55, color: c.ink600, marginBottom: 20 }}>{body}</p>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: c.green700, fontSize: 14, fontWeight: 600 }}>
+        Meer over deze sector <ChevronRight size={14} />
+      </div>
+    </a>
+  );
+}
+
+export function SectorenSection() {
+  return (
+    <Section>
+      <SectionHeader
+        eyebrow="Voor wie wij werken"
+        title="Drie sectoren waarin wij thuis zijn."
+        intro="Geen breed assortiment dat alles voor iedereen claimt te kunnen. Bollen en glastuinbouw zijn onze kern; logistiek en food zijn de groeisectoren waar we sinds 2022 in opbouwen."
+      />
+      <div className="sector-grid" style={{
+        display: 'grid', gridTemplateColumns: '1fr', gap: 20,
+      }}>
+        <SectorCard
+          icon={<Sprout size={28} strokeWidth={2} />}
+          title="Bollen & glastuinbouw"
+          body="Wij kennen het mei-pieksysteem, het bollenrooi-ritme en de planning rond knolontsmetting. Onze flexkrachten zijn ingewerkt op de sorteerlijn voordat de schaal omhoog gaat."
+          href="/voor-werkgevers#bollen-glastuinbouw"
+        />
+        <SectorCard
+          icon={<Truck size={28} strokeWidth={2} />}
+          title="Logistiek"
+          body="Magazijn-, dock- en routewerk. Wij plannen met uw dock-windows en weten welke werknemers prettig samenwerken met geautomatiseerde processen."
+          href="/voor-werkgevers#logistiek"
+        />
+        <SectorCard
+          icon={<UtensilsCrossed size={28} strokeWidth={2} />}
+          title="Food & horeca"
+          body="Sinds 2022 een groeiende tak. Productie, verpakking, en horeca-ondersteuning. Hotel Alkmaar als startklant, opening naar bredere food-keten."
+          href="/voor-werkgevers#food-horeca"
+        />
+      </div>
+      <style>{`
+        @media (min-width: 768px) {
+          .sector-grid { grid-template-columns: repeat(3, 1fr) !important; }
+        }
+      `}</style>
+    </Section>
+  );
+}
+
+// =========================================================
+// HOMEPAGE — Section 3: Werkwijze
+// =========================================================
+function StepItem({ number, icon, title, body }) {
+  return (
+    <div style={{ position: 'relative' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+        <div className="num" style={{
+          fontSize: 36, fontWeight: 700, color: c.green700, lineHeight: 1,
+        }}>
+          {number}
+        </div>
+        <div style={{ color: c.green700 }}>{icon}</div>
+      </div>
+      <h3 style={{ fontSize: 19, fontWeight: 700, marginBottom: 10, color: c.ink900 }}>{title}</h3>
+      <p style={{ fontSize: 15, lineHeight: 1.55, color: c.ink600 }}>{body}</p>
+    </div>
+  );
+}
+
+export function WerkwijzeSection() {
+  return (
+    <Section background={c.ink50}>
+      <SectionHeader
+        eyebrow="Werkwijze"
+        title="Vier stappen, geen drempels."
+        intro="Van eerste gesprek tot maandelijkse verloning. Wij houden de keten kort en de communicatie direct."
+      />
+      <div className="step-grid" style={{
+        display: 'grid', gridTemplateColumns: '1fr', gap: 32,
+      }}>
+        <StepItem number="01" icon={<MessageCircle size={24} />} title="Klantgesprek"
+          body="Pascal komt langs of belt. Wij brengen uw seizoen, piekvolume en specifieke werkzaamheden in kaart. Geen offerte op 30 vragenlijst-velden." />
+        <StepItem number="02" icon={<HomeIcon size={24} />} title="Match & huisvesting"
+          body="Wij selecteren flexkrachten op basis van uw vak en taal. Voor arbeidsmigranten regelen wij huisvesting binnen ons eigen woningbestand." />
+        <StepItem number="03" icon={<Users size={24} />} title="Inzet"
+          body="Op de eerste werkdag is iemand uit ons team aanwezig voor de overdracht. Korte lijn voor wijzigingen, geen 088-callcenter." />
+        <StepItem number="04" icon={<ClipboardCheck size={24} />} title="Verloning"
+          body="Eigen back-office verzorgt de salarisrun, urenverwerking en compliance. Uw maandfactuur is voorspelbaar en gespecificeerd per flexkracht." />
+      </div>
+      <div style={{ marginTop: 48 }}>
+        <a href="/werkwijze" className="btn btn-secondary">
+          Volledige werkwijze bekijken <ArrowRight size={16} strokeWidth={2.5} />
+        </a>
+      </div>
+      <style>{`
+        @media (min-width: 768px) {
+          .step-grid { grid-template-columns: repeat(4, 1fr) !important; }
+        }
+      `}</style>
+    </Section>
+  );
+}
+
+// =========================================================
+// HOMEPAGE — Section 4: Pakketten
+// =========================================================
+function PakketCard({ tag, name, price, priceUnit, features, ctaText, ctaHref, highlight }) {
+  return (
+    <div style={{
+      background: c.white,
+      border: highlight ? `2px solid ${c.green700}` : `1px solid ${c.ink200}`,
+      borderRadius: 20,
+      padding: '32px 28px',
+      position: 'relative',
+      boxShadow: highlight ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+      transform: highlight ? 'translateY(-4px)' : 'none',
+    }}>
+      {tag && (
+        <div style={{
+          position: 'absolute', top: -12, left: 24,
+          background: c.amber500, color: c.ink900,
+          padding: '4px 12px', borderRadius: 999,
+          fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase',
+        }}>
+          {tag}
+        </div>
+      )}
+      <h3 style={{ fontSize: 22, fontWeight: 800, color: c.ink900, marginBottom: 6 }}>{name}</h3>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 24 }}>
+        <span className="num" style={{ fontSize: 38, fontWeight: 700, color: c.green800 }}>{price}</span>
+        <span style={{ fontSize: 14, color: c.ink500 }}>{priceUnit}</span>
+      </div>
+      <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {features.map((f, i) => (
+          <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 15, color: c.ink700, lineHeight: 1.5 }}>
+            <Check size={18} strokeWidth={2.5} style={{ color: c.green700, flexShrink: 0, marginTop: 2 }} />
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+      <a href={ctaHref} className={highlight ? 'btn btn-primary' : 'btn btn-secondary'} style={{ width: '100%', justifyContent: 'center' }}>
+        {ctaText}
+      </a>
+    </div>
+  );
+}
+
+export function PakkettenSection({ embed = false }) {
+  const content = (
+    <>
+      {!embed && (
+        <SectionHeader
+          eyebrow="Pakketten"
+          title="Drie heldere pakketten. Transparante tarieven."
+          intro="Geen offerte na een formulier met dertig vragen. U kiest het pakket dat past, wij regelen de rest."
+        />
+      )}
+      <div className="pakket-grid" style={{
+        display: 'grid', gridTemplateColumns: '1fr', gap: 24, alignItems: 'stretch',
+      }}>
+        <PakketCard
+          name="Basis"
+          price="€ XX,XX"
+          priceUnit="/uur [VERIFY]"
+          features={[
+            'Werving en selectie flexkrachten',
+            'Wekelijkse urenverwerking',
+            'Maandelijkse verloning via eigen back-office',
+            'Telefonisch bereikbaar op werkdagen',
+          ]}
+          ctaText="Offerte aanvragen"
+          ctaHref="/contact?pakket=basis"
+        />
+        <PakketCard
+          tag="Meest gekozen"
+          highlight
+          name="Gewoon Goed"
+          price="€ XX,XX"
+          priceUnit="/uur [VERIFY]"
+          features={[
+            'Alles uit Basis',
+            'Huisvesting voor arbeidsmigranten geregeld',
+            'Vervoer naar de werklocatie',
+            'Eerste-werkdag begeleiding',
+            'Maandelijks evaluatiegesprek',
+          ]}
+          ctaText="Offerte aanvragen"
+          ctaHref="/contact?pakket=gewoongoed"
+        />
+        <PakketCard
+          name="All-In"
+          price="€ XX,XX"
+          priceUnit="/uur [VERIFY]"
+          features={[
+            'Alles uit Gewoon Goed',
+            'Dedicated accountmanager (Pascal)',
+            'Maandelijkse compliance-rapportage',
+            'Volledige administratieve ontzorging',
+            'Capaciteitsplanning voor het seizoen',
+          ]}
+          ctaText="Offerte aanvragen"
+          ctaHref="/contact?pakket=allin"
+        />
+      </div>
+      <p style={{ marginTop: 28, fontSize: 13, color: c.ink500, fontStyle: 'italic' }}>
+        Tarieven excl. BTW. Definitief tarief op maat afhankelijk van sector, schaal en seizoenspatroon. [Plaatsvervangende tarieven — werkelijke pakketprijzen invullen vóór launch.]
+      </p>
+      <style>{`
+        @media (min-width: 768px) {
+          .pakket-grid { grid-template-columns: repeat(3, 1fr) !important; }
+        }
+      `}</style>
+    </>
+  );
+
+  return embed ? content : (
+    <Section background={c.white} style={{ scrollMarginTop: 80 }}>
+      <div id="pakketten" style={{ scrollMarginTop: 80 }} />
+      {content}
+    </Section>
+  );
+}
+
+// =========================================================
+// HOMEPAGE — Section 5: Cases preview
+// =========================================================
+function CaseCard({ sector, locatie, schaal, klantSinds, beschrijving, resultaat }) {
+  return (
+    <div style={{
+      background: c.white,
+      border: `1px solid ${c.ink200}`,
+      borderRadius: 16,
+      padding: 28,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16,
+    }}>
+      <div style={{
+        display: 'flex', flexWrap: 'wrap', gap: 8,
+      }}>
+        <span style={{
+          fontSize: 11, fontWeight: 700, letterSpacing: '0.08em',
+          textTransform: 'uppercase', color: c.green800,
+          background: c.green100, padding: '4px 10px', borderRadius: 999,
+        }}>
+          {sector}
+        </span>
+        <span style={{
+          fontSize: 11, fontWeight: 600,
+          color: c.ink600, background: c.ink100,
+          padding: '4px 10px', borderRadius: 999,
+        }}>
+          {locatie} · {schaal}
+        </span>
+      </div>
+      <h3 style={{ fontSize: 18, fontWeight: 700, color: c.ink900, marginBottom: 0 }}>
+        {beschrijving}
+      </h3>
+      <p style={{ fontSize: 14, color: c.ink600, lineHeight: 1.55, marginBottom: 0 }}>
+        {resultaat}
+      </p>
+      <div style={{
+        marginTop: 'auto', paddingTop: 16,
+        borderTop: `1px solid ${c.ink100}`,
+        fontSize: 13, color: c.ink500,
+      }}>
+        Klant sinds {klantSinds}
+      </div>
+    </div>
+  );
+}
+
+export function CasesPreviewSection() {
+  return (
+    <Section background={c.green50}>
+      <SectionHeader
+        eyebrow="Cases"
+        title="Wat wij voor onze klanten doen."
+        intro="Twee voorbeeldcases. Werkelijke klantnamen worden toegevoegd zodra publicatietoestemming is geregeld."
+      />
+      <div className="case-grid" style={{
+        display: 'grid', gridTemplateColumns: '1fr', gap: 20,
+      }}>
+        <CaseCard
+          sector="Bollenkwekerij"
+          locatie="Schagen"
+          schaal="45 ha"
+          klantSinds="2019"
+          beschrijving="[Voorbeeldcase] Stabiele bezetting van mei-piek over vijf seizoenen."
+          resultaat="Jaarlijks 25-45 flexkrachten ingezet in piekweken. Zelfde kerngroep terugkerend, korter inwerktraject, lagere uitval."
+        />
+        <CaseCard
+          sector="Glastuinbouw"
+          locatie="Heerhugowaard"
+          schaal="12 ha onder glas"
+          klantSinds="2021"
+          beschrijving="[Voorbeeldcase] Doorlopende inzet plus huisvesting voor zeven medewerkers."
+          resultaat="Vaste pool met huisvestingsoplossing. Geen reisproblemen, langere gemiddelde contractduur."
+        />
+      </div>
+      <div style={{ marginTop: 36 }}>
+        <a href="/cases" className="btn btn-secondary">
+          Alle cases bekijken <ArrowRight size={16} strokeWidth={2.5} />
+        </a>
+      </div>
+      <style>{`
+        @media (min-width: 768px) {
+          .case-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+      `}</style>
+    </Section>
+  );
+}
+
+// =========================================================
+// HOMEPAGE — Section 6: Final CTA
+// =========================================================
+export function FinalCTA() {
+  return (
+    <section style={{
+      background: c.ink900,
+      color: c.white,
+      padding: 'clamp(64px, 9vw, 96px) 24px',
+    }}>
+      <Container style={{ textAlign: 'center', maxWidth: 760 }}>
+        <p className="eyebrow" style={{ color: c.green400, marginBottom: 16 }}>Klaar voor het volgende seizoen?</p>
+        <h2 className="display-m" style={{ color: c.white, marginBottom: 24 }}>
+          Klaar voor een seizoen zonder verrassingen?
+        </h2>
+        <p style={{ fontSize: 18, lineHeight: 1.55, color: c.ink300, marginBottom: 36 }}>
+          Eén klantgesprek en u weet of we passen. Pascal belt u dezelfde dag terug.
+        </p>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <a href="/contact" className="btn btn-primary">
+            Offerte aanvragen <ArrowRight size={16} strokeWidth={2.5} />
+          </a>
+          <a href="tel:+31000000000" className="btn"
+            style={{
+              background: 'transparent', color: c.white,
+              border: `1.5px solid ${c.ink600}`,
+            }}>
+            Direct bellen
+          </a>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+// =========================================================
+// PAGE: Voor werkgevers
+// =========================================================
+export function VoorWerkgeversContent() {
+  return (
+    <>
+      <PageHeader
+        eyebrow="Voor werkgevers"
+        title="Drie sectoren. Eén partner die uw vak kent."
+        intro="Wij hebben bewust geen breed assortiment. Onze diepte zit in bollen en glastuinbouw, met groeiposities in logistiek en food."
+      />
+      <Section id="bollen-glastuinbouw">
+        <div className="vw-sector" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40, alignItems: 'start' }}>
+          <div>
+            <div style={{
+              width: 64, height: 64, borderRadius: 14,
+              background: c.green100, color: c.green800,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              marginBottom: 24,
+            }}>
+              <Sprout size={32} strokeWidth={2} />
+            </div>
+            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 16 }}>Bollen & glastuinbouw</h2>
+            <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink700, marginBottom: 20 }}>
+              Onze kern. De meeste van onze flexkrachten zijn meermaals ingewerkt op
+              specifieke werkzaamheden: sorteerlijnen, knolontsmetting, bollenrooi,
+              gerbera-pluk, paprika-oogst.
+            </p>
+            <h3 style={{ fontSize: 17, fontWeight: 700, color: c.ink900, marginBottom: 12 }}>Wat wij anders doen:</h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                'Capaciteitsplanning volgt uw seizoen, niet ons rooster',
+                'Mei-pieksysteem ingebouwd in onze planning',
+                'Huisvesting voor terugkerende migranten geregeld in eigen woningbestand',
+                'Pascal bezoekt uw bedrijf vóór het seizoen, niet pas bij een storing',
+              ].map((item, i) => (
+                <li key={i} style={{ display: 'flex', gap: 10, fontSize: 15, color: c.ink700 }}>
+                  <Check size={18} strokeWidth={2.5} style={{ color: c.green700, flexShrink: 0, marginTop: 2 }} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div style={{ background: c.green50, borderRadius: 16, padding: 32, border: `1px solid ${c.green200}` }}>
+            <p className="eyebrow" style={{ marginBottom: 12 }}>Typische inzet</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+              <FactRow label="Piekvolume" value="50–180 flexkrachten" />
+              <FactRow label="Seizoenspatroon" value="Mei–september" />
+              <FactRow label="Werkzaamheden" value="Pluk, sortering, verpakking" />
+              <FactRow label="Huisvesting" value="Veelal nodig, wij regelen" />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section background={c.ink50} id="logistiek">
+        <div className="vw-sector" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40, alignItems: 'start' }}>
+          <div>
+            <div style={{
+              width: 64, height: 64, borderRadius: 14,
+              background: c.green100, color: c.green800,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              marginBottom: 24,
+            }}>
+              <Truck size={32} strokeWidth={2} />
+            </div>
+            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 16 }}>Logistiek</h2>
+            <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink700, marginBottom: 20 }}>
+              Magazijn-, dock- en routewerk. Wij plannen rond uw dock-windows en
+              kennen de verschillen tussen RDC-, DC- en cross-dock-omgevingen.
+            </p>
+            <h3 style={{ fontSize: 17, fontWeight: 700, color: c.ink900, marginBottom: 12 }}>Wat wij anders doen:</h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                'Inzet binnen 48 uur bij capaciteitsuitval',
+                'Flexkrachten ingewerkt op WMS en scanners',
+                'Combinatieinzet over meerdere klanten in NH-Kop',
+                'VCU-gecertificeerde uitzending voor risicovolle werkzaamheden',
+              ].map((item, i) => (
+                <li key={i} style={{ display: 'flex', gap: 10, fontSize: 15, color: c.ink700 }}>
+                  <Check size={18} strokeWidth={2.5} style={{ color: c.green700, flexShrink: 0, marginTop: 2 }} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div style={{ background: c.white, borderRadius: 16, padding: 32, border: `1px solid ${c.ink200}` }}>
+            <p className="eyebrow" style={{ marginBottom: 12 }}>Typische inzet</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+              <FactRow label="Volume" value="5–40 flexkrachten doorlopend" />
+              <FactRow label="Werkdagen" value="Ma–za, ploegen mogelijk" />
+              <FactRow label="Functies" value="Orderpicker, heftruck, expeditie" />
+              <FactRow label="Snelle inzet" value="Binnen 48u bij uitval" />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section id="food-horeca">
+        <div className="vw-sector" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40, alignItems: 'start' }}>
+          <div>
+            <div style={{
+              width: 64, height: 64, borderRadius: 14,
+              background: c.green100, color: c.green800,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              marginBottom: 24,
+            }}>
+              <UtensilsCrossed size={32} strokeWidth={2} />
+            </div>
+            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 16 }}>Food & horeca</h2>
+            <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink700, marginBottom: 20 }}>
+              Sinds 2022 een groeiende tak. Wij ondersteunen voedselproductie,
+              verpakking en horeca. Hotel Alkmaar is onze startklant in deze
+              sector; we breiden gestructureerd uit met vergelijkbare partijen.
+            </p>
+            <h3 style={{ fontSize: 17, fontWeight: 700, color: c.ink900, marginBottom: 12 }}>Wat wij anders doen:</h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                'Flexibele weekendinzet voor horeca-pieken',
+                'HACCP-bewuste flexkrachten in voedselproductie',
+                'Inzet ook voor kortlopende projecten en evenementen',
+                'Doorgroeimogelijkheid: tijdelijke kracht wordt seizoenskracht',
+              ].map((item, i) => (
+                <li key={i} style={{ display: 'flex', gap: 10, fontSize: 15, color: c.ink700 }}>
+                  <Check size={18} strokeWidth={2.5} style={{ color: c.green700, flexShrink: 0, marginTop: 2 }} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div style={{ background: c.green50, borderRadius: 16, padding: 32, border: `1px solid ${c.green200}` }}>
+            <p className="eyebrow" style={{ marginBottom: 12 }}>Typische inzet</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+              <FactRow label="Volume" value="2–15 flexkrachten" />
+              <FactRow label="Werkmoment" value="Weekends en avonduren" />
+              <FactRow label="Functies" value="Bediening, productie, verpakking" />
+              <FactRow label="Aandachtspunten" value="HACCP en allergenenkennis" />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <FinalCTA />
+
+      <style>{`
+        @media (min-width: 820px) {
+          .vw-sector { grid-template-columns: 1.4fr 1fr !important; }
+        }
+      `}</style>
+    </>
+  );
+}
+
+function FactRow({ label, value }) {
+  return (
+    <div>
+      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: c.ink500, marginBottom: 4 }}>
+        {label}
+      </div>
+      <div style={{ fontSize: 15, color: c.ink900, fontWeight: 600 }}>{value}</div>
+    </div>
+  );
+}
+
+// =========================================================
+// PAGE: Werkwijze (full)
+// =========================================================
+export function WerkwijzeContent() {
+  return (
+    <>
+      <PageHeader
+        eyebrow="Werkwijze"
+        title="Vier stappen, geen drempels."
+        intro="Van eerste gesprek tot maandelijkse verloning. Wij houden de keten kort, de communicatie direct, en de administratie in-house."
+      />
+      <Section>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 64 }}>
+          <WerkwijzeStep
+            number="01"
+            title="Klantgesprek"
+            body="Pascal komt langs of belt. Wij brengen uw seizoen, piekvolume en specifieke werkzaamheden in kaart. We bekijken samen of we een match zijn voordat er ook maar één offerte op tafel komt."
+            details={[
+              'Doorlooptijd: 1–3 werkdagen tot offerte',
+              'Geen 30-vragen-formulier. Eén gesprek, dan voorstel',
+              'Bezoek aan uw locatie kan, geen verplichting',
+            ]}
+          />
+          <WerkwijzeStep
+            number="02"
+            title="Match & huisvesting"
+            body="Wij selecteren flexkrachten op basis van uw vak, taal en seizoensgevoel. Voor arbeidsmigranten regelen wij huisvesting binnen ons eigen woningbestand — geen Airbnb-improvisatie, geen onderhuur via derden."
+            details={[
+              'Eigen huisvestingsbestand in NH-Kop',
+              'SNF-norm gevolgd waar van toepassing',
+              'Pre-screening op vaardigheid en taal',
+              'Documentcheck en compliance bij intake',
+            ]}
+          />
+          <WerkwijzeStep
+            number="03"
+            title="Inzet"
+            body="Op de eerste werkdag is iemand uit ons team aanwezig voor de overdracht aan uw voorman of teamleider. Korte lijn voor wijzigingen, geen 088-callcenter. Pascal of Mark is direct bereikbaar."
+            details={[
+              'Eerste-werkdag begeleiding standaard',
+              'Direct telefoonnummer Pascal voor klantvragen',
+              'Vervanging bij uitval binnen 24u in pieken',
+              'Wekelijkse urenverwerking met u afgestemd',
+            ]}
+          />
+          <WerkwijzeStep
+            number="04"
+            title="Verloning"
+            body="Onze eigen back-office verzorgt de salarisrun, urenverwerking en compliance. Uw maandfactuur is voorspelbaar, gespecificeerd per flexkracht, en aansluitbaar op uw boekhouding."
+            details={[
+              'Wekelijkse urenstaat, maandelijkse factuur',
+              'Pensioen, vakantiegeld, reserveringen correct verwerkt',
+              'Compliance-rapportage op verzoek',
+              'Aansluiting op de meeste boekhoudpakketten',
+            ]}
+          />
+        </div>
+      </Section>
+
+      <Section background={c.green50}>
+        <SectionHeader
+          eyebrow="Certificeringen"
+          title="Compliance is geen optie."
+          intro="Wij werken volgens de geldende sectorale normen. SNA-certificering ronden wij af in 2026."
+          align="center"
+        />
+        <div className="cert-grid" style={{
+          display: 'grid', gridTemplateColumns: '1fr', gap: 16, maxWidth: 720, margin: '0 auto',
+        }}>
+          <CertBadge title="SNA" subtitle="Stichting Normering Arbeid · in afronding 2026" icon={<Award size={22} />} pending />
+          <CertBadge title="NEN 4400-1" subtitle="Norm voor uitleen van arbeid" icon={<Shield size={22} />} />
+          <CertBadge title="ABU" subtitle="Lidmaatschap branchevereniging" icon={<FileCheck size={22} />} />
+          <CertBadge title="VCU" subtitle="Veiligheid voor uitzendorganisaties" icon={<Shield size={22} />} />
+        </div>
+        <style>{`
+          @media (min-width: 600px) {
+            .cert-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+        `}</style>
+      </Section>
+
+      <FinalCTA />
+    </>
+  );
+}
+
+function WerkwijzeStep({ number, title, body, details }) {
+  return (
+    <div className="ww-step" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24, alignItems: 'start' }}>
+      <div>
+        <div className="num" style={{ fontSize: 56, fontWeight: 700, color: c.green700, lineHeight: 1, marginBottom: 8 }}>
+          {number}
+        </div>
+        <h2 style={{ fontSize: 28, fontWeight: 800, color: c.ink900, marginBottom: 16 }}>{title}</h2>
+        <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink700 }}>{body}</p>
+      </div>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {details.map((d, i) => (
+          <li key={i} style={{ display: 'flex', gap: 10, fontSize: 15, color: c.ink700 }}>
+            <Check size={18} strokeWidth={2.5} style={{ color: c.green700, flexShrink: 0, marginTop: 2 }} />
+            <span>{d}</span>
+          </li>
+        ))}
+      </ul>
+      <style>{`
+        @media (min-width: 820px) {
+          .ww-step { grid-template-columns: 1.2fr 1fr !important; gap: 48px !important; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function CertBadge({ title, subtitle, icon, pending }) {
+  return (
+    <div style={{
+      background: c.white,
+      border: `1px solid ${c.ink200}`,
+      borderRadius: 12,
+      padding: '20px 24px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 16,
+    }}>
+      <div style={{
+        width: 48, height: 48, borderRadius: 10,
+        background: pending ? c.amber50 : c.green100,
+        color: pending ? c.amber700 : c.green800,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexShrink: 0,
+      }}>
+        {icon}
+      </div>
+      <div>
+        <div style={{ fontSize: 16, fontWeight: 700, color: c.ink900 }}>{title}</div>
+        <div style={{ fontSize: 13, color: c.ink500 }}>{subtitle}</div>
+      </div>
+    </div>
+  );
+}
+
+// =========================================================
+// PAGE: Pakketten (full)
+// =========================================================
+export function PakkettenContent() {
+  return (
+    <>
+      <PageHeader
+        eyebrow="Pakketten"
+        title="Drie pakketten. Eén heldere keuze."
+        intro="Basis voor wie zelf de regie houdt. Gewoon Goed voor de meeste klanten. All-In voor wie volledig ontzorgd wil worden."
+      />
+      <Section>
+        <PakkettenSection embed />
+      </Section>
+
+      <Section background={c.ink50}>
+        <SectionHeader
+          eyebrow="Vergelijking"
+          title="Wat krijgt u per pakket?"
+          align="center"
+        />
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            fontSize: 15,
+            minWidth: 600,
+          }}>
+            <thead>
+              <tr style={{ borderBottom: `2px solid ${c.ink900}` }}>
+                <th style={{ textAlign: 'left', padding: '14px 16px', color: c.ink900, fontWeight: 700 }}>Onderdeel</th>
+                <th style={{ padding: '14px 16px', color: c.ink900, fontWeight: 700 }}>Basis</th>
+                <th style={{ padding: '14px 16px', color: c.green800, fontWeight: 800 }}>Gewoon Goed</th>
+                <th style={{ padding: '14px 16px', color: c.ink900, fontWeight: 700 }}>All-In</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ['Werving en selectie', true, true, true],
+                ['Verloning via eigen back-office', true, true, true],
+                ['Huisvesting voor migranten', false, true, true],
+                ['Vervoer naar werklocatie', false, true, true],
+                ['Eerste-werkdag begeleiding', false, true, true],
+                ['Maandelijks evaluatiegesprek', false, true, true],
+                ['Dedicated accountmanager', false, false, true],
+                ['Compliance-rapportage', false, false, true],
+                ['Capaciteitsplanning vooraf', false, false, true],
+              ].map(([feat, b, gg, ai], i) => (
+                <tr key={i} style={{ borderBottom: `1px solid ${c.ink200}`, background: i % 2 ? c.white : c.ink50 }}>
+                  <td style={{ padding: '14px 16px', color: c.ink700 }}>{feat}</td>
+                  <td style={{ padding: '14px 16px', textAlign: 'center' }}>{b ? <Check size={18} strokeWidth={2.5} style={{ color: c.green700 }} /> : <span style={{ color: c.ink300 }}>—</span>}</td>
+                  <td style={{ padding: '14px 16px', textAlign: 'center' }}>{gg ? <Check size={18} strokeWidth={2.5} style={{ color: c.green700 }} /> : <span style={{ color: c.ink300 }}>—</span>}</td>
+                  <td style={{ padding: '14px 16px', textAlign: 'center' }}>{ai ? <Check size={18} strokeWidth={2.5} style={{ color: c.green700 }} /> : <span style={{ color: c.ink300 }}>—</span>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Section>
+
+      <Section>
+        <SectionHeader
+          eyebrow="Vraag & antwoord"
+          title="Veelgestelde vragen"
+          align="center"
+        />
+        <div style={{ maxWidth: 760, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {[
+            { q: 'Kan ik wisselen tussen pakketten gedurende het jaar?', a: 'Ja. Veel klanten beginnen met Basis en stappen voor het volgende seizoen over op Gewoon Goed. Tussentijds wisselen kan ook in overleg.' },
+            { q: 'Wat zit er niet inbegrepen?', a: 'Werkkleding, persoonlijke beschermingsmiddelen, en bedrijfsspecifieke training blijven uw verantwoordelijkheid. Wij kunnen wel adviseren over inkoop.' },
+            { q: 'Hoe werkt huisvesting voor arbeidsmigranten?', a: 'In Gewoon Goed en All-In regelen wij huisvesting binnen ons eigen woningbestand in NH-Kop. SNF-norm gevolgd. Geen onderhuur via derden.' },
+            { q: 'Zijn er minimum-volumes?', a: 'Geen formele minima. Voor zeer kleine projecten (1–2 flexkrachten kortlopend) is een persoonlijk gesprek meestal de meest efficiënte route.' },
+          ].map((item, i) => (
+            <details key={i} style={{
+              borderBottom: `1px solid ${c.ink200}`,
+              padding: '20px 0',
+            }}>
+              <summary style={{
+                fontSize: 17, fontWeight: 700, color: c.ink900,
+                cursor: 'pointer', listStyle: 'none',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              }}>
+                <span>{item.q}</span>
+                <ChevronRight size={20} style={{ color: c.green700 }} />
+              </summary>
+              <p style={{ fontSize: 15, lineHeight: 1.6, color: c.ink600, marginTop: 12, marginBottom: 0 }}>
+                {item.a}
+              </p>
+            </details>
+          ))}
+        </div>
+      </Section>
+
+      <FinalCTA />
+    </>
+  );
+}
+
+// =========================================================
+// PAGE: Cases (overview)
+// =========================================================
+export function CasesContent() {
+  return (
+    <>
+      <PageHeader
+        eyebrow="Cases"
+        title="Wat wij voor onze klanten doen."
+        intro="Voorbeeldcases uit drie sectoren. Werkelijke klantnamen, logo's en specifieke cijfers worden toegevoegd zodra publicatietoestemming is geregeld."
+      />
+      <Section>
+        <div className="case-grid-full" style={{
+          display: 'grid', gridTemplateColumns: '1fr', gap: 24,
+        }}>
+          <CaseCard
+            sector="Bollenkwekerij"
+            locatie="Schagen"
+            schaal="45 ha"
+            klantSinds="2019"
+            beschrijving="[Voorbeeldcase] Stabiele bezetting van mei-piek over vijf seizoenen."
+            resultaat="Jaarlijks 25-45 flexkrachten ingezet in piekweken. Zelfde kerngroep terugkerend, korter inwerktraject, lagere uitval."
+          />
+          <CaseCard
+            sector="Glastuinbouw"
+            locatie="Heerhugowaard"
+            schaal="12 ha onder glas"
+            klantSinds="2021"
+            beschrijving="[Voorbeeldcase] Doorlopende inzet plus huisvesting voor zeven medewerkers."
+            resultaat="Vaste pool met huisvestingsoplossing. Geen reisproblemen, langere gemiddelde contractduur."
+          />
+          <CaseCard
+            sector="Logistiek"
+            locatie="Den Helder"
+            schaal="RDC, ~120 medewerkers"
+            klantSinds="2020"
+            beschrijving="[Voorbeeldcase] Snelle capaciteit bij vakantiepieken en uitval."
+            resultaat="Vaste pool van 8–12 flexkrachten beschikbaar binnen 48u. Combinatie met cross-dock werkzaamheden mogelijk."
+          />
+          <CaseCard
+            sector="Food/horeca"
+            locatie="Alkmaar"
+            schaal="Hotel · 95 kamers"
+            klantSinds="2022"
+            beschrijving="[Voorbeeldcase] Weekendondersteuning bediening en housekeeping."
+            resultaat="Stabiele weekendinzet. Geen no-shows in 2023, beperkte uitval in 2024 ondanks krappe arbeidsmarkt."
+          />
+        </div>
+        <p style={{ marginTop: 32, fontSize: 13, color: c.ink500, fontStyle: 'italic' }}>
+          Bovenstaande cases zijn voorbeeldcases volgens veiligheidsregel: geen verzonnen klantnamen of citaten. Werkelijke cases worden gepubliceerd zodra publicatietoestemming is geregeld.
+        </p>
+        <style>{`
+          @media (min-width: 768px) {
+            .case-grid-full { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+        `}</style>
+      </Section>
+
+      <FinalCTA />
+    </>
+  );
+}
+
+// =========================================================
+// PAGE: Over ons
+// =========================================================
+function TeamCard({ name, role, initials, bio }) {
+  return (
+    <div style={{
+      background: c.white,
+      border: `1px solid ${c.ink200}`,
+      borderRadius: 16,
+      padding: 28,
+    }}>
+      <div style={{
+        width: 64, height: 64, borderRadius: '50%',
+        background: c.green700,
+        color: c.white,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: 'var(--font-display)',
+        fontSize: 22, fontWeight: 800,
+        marginBottom: 20,
+      }}>
+        {initials}
+      </div>
+      <h3 style={{ fontSize: 20, fontWeight: 700, color: c.ink900, marginBottom: 4 }}>{name}</h3>
+      <div style={{ fontSize: 13, color: c.green700, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 16 }}>
+        {role}
+      </div>
+      <p style={{ fontSize: 14, lineHeight: 1.6, color: c.ink600, marginBottom: 0 }}>{bio}</p>
+    </div>
+  );
+}
+
+export function OverOnsContent() {
+  return (
+    <>
+      <PageHeader
+        eyebrow="Over ons"
+        title="Drie partners, één team."
+        intro="PS-Connect is een familiebedrijf met drie eigenaren. Wij zijn niet de grootste, en willen dat ook niet zijn. Wij zijn de partij die uw bedrijf en uw seizoen kent."
+      />
+
+      <Section>
+        <SectionHeader eyebrow="Team" title="Wie u tegenkomt." align="left" />
+        <div className="team-grid" style={{
+          display: 'grid', gridTemplateColumns: '1fr', gap: 24,
+        }}>
+          <TeamCard
+            name="Pascal"
+            initials="P"
+            role="Partner · Operationeel"
+            bio="[Bio in te vullen] Pascal is het eerste aanspreekpunt voor onze klanten. Hij is bij het eerste gesprek, hij is bij de eerste werkdag, en hij belt als er een vraag is."
+          />
+          <TeamCard
+            name="Mark"
+            initials="M"
+            role="Partner · Finance & Compliance"
+            bio="[Bio in te vullen] Mark verzorgt de juridische, financiële en compliance-kant. Verantwoordelijk voor SNA-traject, NEN-norm en de eigen back-office."
+          />
+          <TeamCard
+            name="Matthijs"
+            initials="MT"
+            role="Partner · Strategie & Groei"
+            bio="[Bio in te vullen] Matthijs werkt aan de bredere strategie: klantontwikkeling, sectorale verbreding, en de relatie met opdrachtgevers buiten de kerngroep."
+          />
+        </div>
+        <style>{`
+          @media (min-width: 768px) {
+            .team-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          }
+        `}</style>
+      </Section>
+
+      <Section background={c.ink50}>
+        <div className="story-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40, alignItems: 'center' }}>
+          <div>
+            <p className="eyebrow" style={{ marginBottom: 12 }}>Ons verhaal</p>
+            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 20 }}>
+              Sinds 2008 in Noord-Holland.
+            </h2>
+            <p style={{ fontSize: 16, lineHeight: 1.6, color: c.ink700, marginBottom: 16 }}>
+              [Volledige bedrijfsgeschiedenis in te vullen] PS-Connect ontstond in
+              2008 vanuit de overtuiging dat een uitzendpartij die bollen en glas
+              kent niet via een 088-callcenter werkt. We zijn doelbewust regionaal
+              gebleven en hebben gekozen voor diepte boven breedte.
+            </p>
+            <p style={{ fontSize: 16, lineHeight: 1.6, color: c.ink700 }}>
+              Vandaag werken wij voor 19 klanten in NH-Kop. Onze gemiddelde
+              klantrelatie loopt al jaren door, omdat we mee weten te bewegen
+              met de seizoenen, de markt, en de werkgever.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gap: 16 }}>
+            <StatTile value="2008" label="Opgericht in NH-Kop" />
+            <StatTile value="19" label="Actieve klanten" />
+            <StatTile value="3" label="Sectoren waarin wij specialist zijn" />
+          </div>
+        </div>
+        <style>{`
+          @media (min-width: 820px) {
+            .story-grid { grid-template-columns: 1.4fr 1fr !important; }
+          }
+        `}</style>
+      </Section>
+
+      <Section>
+        <SectionHeader
+          eyebrow="Certificeringen"
+          title="Compliance op orde."
+          intro="Wij volgen de geldende sectorale normen. SNA-certificering ronden wij af in 2026."
+          align="center"
+        />
+        <div className="cert-grid" style={{
+          display: 'grid', gridTemplateColumns: '1fr', gap: 16, maxWidth: 720, margin: '0 auto',
+        }}>
+          <CertBadge title="SNA" subtitle="Stichting Normering Arbeid · in afronding 2026" icon={<Award size={22} />} pending />
+          <CertBadge title="NEN 4400-1" subtitle="Norm voor uitleen van arbeid" icon={<Shield size={22} />} />
+          <CertBadge title="ABU" subtitle="Lidmaatschap branchevereniging" icon={<FileCheck size={22} />} />
+          <CertBadge title="VCU" subtitle="Veiligheid voor uitzendorganisaties" icon={<Shield size={22} />} />
+        </div>
+        <style>{`
+          @media (min-width: 600px) {
+            .cert-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+        `}</style>
+      </Section>
+
+      <FinalCTA />
+    </>
+  );
+}
+
+// =========================================================
+// PAGE: Vacatures
+// =========================================================
+function VacatureCard({ title, sector, locatie, type, href }) {
+  return (
+    <a href={href} style={{
+      display: 'block',
+      background: c.white,
+      border: `1px solid ${c.ink200}`,
+      borderRadius: 14,
+      padding: 24,
+      textDecoration: 'none',
+      color: c.ink900,
+      transition: 'border-color 220ms cubic-bezier(0.22,1,0.36,1)',
+    }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = c.green700; }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = c.ink200; }}
+    >
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 12 }}>
+        <h3 style={{ fontSize: 18, fontWeight: 700, color: c.ink900, marginBottom: 0 }}>{title}</h3>
+        <ChevronRight size={20} style={{ color: c.green700, flexShrink: 0, marginTop: 2 }} />
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <span style={{
+          fontSize: 12, fontWeight: 600, color: c.green800,
+          background: c.green100, padding: '4px 10px', borderRadius: 999,
+        }}>{sector}</span>
+        <span style={{
+          fontSize: 12, fontWeight: 600, color: c.ink600,
+          background: c.ink100, padding: '4px 10px', borderRadius: 999,
+        }}>{locatie}</span>
+        <span style={{
+          fontSize: 12, fontWeight: 600, color: c.ink600,
+          background: c.ink100, padding: '4px 10px', borderRadius: 999,
+        }}>{type}</span>
+      </div>
+    </a>
+  );
+}
+
+export function VacaturesContent() {
+  const vacatures = [
+    { title: 'Medewerker bollensorteerlijn', sector: 'Bollenteelt', locatie: 'Schagen', type: 'Seizoenswerk' },
+    { title: 'Orderpicker', sector: 'Logistiek', locatie: 'Den Helder', type: 'Doorlopend' },
+    { title: 'Medewerker glasgroenten', sector: 'Glastuinbouw', locatie: 'Heerhugowaard', type: 'Seizoenswerk' },
+    { title: 'Medewerker bediening (weekenden)', sector: 'Horeca', locatie: 'Alkmaar', type: 'Weekend' },
+  ];
+
+  return (
+    <>
+      <PageHeader
+        eyebrow="Vacatures"
+        title="Werk in agri, tuinbouw, logistiek en horeca."
+        intro="Wij werken voor 19 werkgevers in NH-Kop. Hieronder enkele voorbeeldvacatures — actuele openstaande functies worden via deze pagina bijgewerkt."
+      />
+      <Section>
+        <div style={{ marginBottom: 32, fontSize: 14, color: c.ink500, fontStyle: 'italic' }}>
+          [Voorbeeldvacatures · werkelijke openstaande functies worden hier geplaatst. Voor v1 dient deze pagina als template.]
+        </div>
+        <div className="vac-grid" style={{
+          display: 'grid', gridTemplateColumns: '1fr', gap: 16,
+        }}>
+          {vacatures.map((v, i) => (
+            <VacatureCard key={i} {...v} href="/contact?onderwerp=vacature" />
+          ))}
+        </div>
+        <style>{`
+          @media (min-width: 700px) {
+            .vac-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+        `}</style>
+      </Section>
+
+      <Section background={c.green50}>
+        <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto' }}>
+          <p className="eyebrow" style={{ marginBottom: 12 }}>Niets vinden?</p>
+          <h2 style={{ fontSize: 28, fontWeight: 800, color: c.ink900, marginBottom: 16 }}>
+            Schrijf u in bij ons bestand.
+          </h2>
+          <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink700, marginBottom: 24 }}>
+            Wij plaatsen lang niet alles online. Als u zich aanmeldt, nemen we contact op wanneer er een passende functie bij een van onze klanten openstaat.
+          </p>
+          <a href="/contact?onderwerp=inschrijving" className="btn btn-primary">
+            Aanmelden flexkracht <ArrowRight size={16} strokeWidth={2.5} />
+          </a>
+        </div>
+      </Section>
+    </>
+  );
+}
+
+// =========================================================
+// PAGE: Werken bij PS-Connect
+// =========================================================
+export function WerkenBijContent() {
+  return (
+    <>
+      <PageHeader
+        eyebrow="Werken bij PS-Connect"
+        title="Werk in NH-Kop, met huisvesting als dat helpt."
+        intro="Wij koppelen flexkrachten aan 19 werkgevers in Noord-Holland. Voor wie van buiten komt, regelen wij huisvesting binnen ons eigen woningbestand."
+      />
+
+      <Section>
+        <div className="wb-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24 }}>
+          <Benefit icon={<Briefcase size={26} />} title="Echt werk, echte werkgevers"
+            body="Wij sturen u niet de stad door tussen acht verschillende uitzendpartijen. U werkt voor één van onze 19 klanten, met een vast aanspreekpunt." />
+          <Benefit icon={<HomeIcon size={26} />} title="Huisvesting voor wie van buiten komt"
+            body="Eigen woningbestand in NH-Kop. SNF-norm waar van toepassing. Geen onderhuur, geen Airbnb-improvisatie." />
+          <Benefit icon={<Heart size={26} />} title="Korte lijn"
+            body="Geen 088-callcenter. Pascal of Mark is bereikbaar als er iets is met uw loon, uw rooster of uw huisvesting." />
+          <Benefit icon={<Building2 size={26} />} title="Doorgroeimogelijkheid"
+            body="Veel van onze flexkrachten beginnen seizoenswerk en gaan door naar vaste contracten bij dezelfde werkgever. Wij begeleiden waar dat past." />
+        </div>
+        <style>{`
+          @media (min-width: 700px) {
+            .wb-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+        `}</style>
+      </Section>
+
+      <Section background={c.green50}>
+        <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto' }}>
+          <h2 className="display-m" style={{ color: c.ink900, marginBottom: 20 }}>
+            Klaar om aan de slag te gaan?
+          </h2>
+          <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink700, marginBottom: 28 }}>
+            Bekijk onze actuele vacatures of schrijf u in bij ons bestand voor nog niet-gepubliceerde functies.
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="/vacatures" className="btn btn-primary">
+              Vacatures bekijken <ArrowRight size={16} strokeWidth={2.5} />
+            </a>
+            <a href="/contact?onderwerp=inschrijving" className="btn btn-secondary">
+              Aanmelden
+            </a>
+          </div>
+        </div>
+      </Section>
+    </>
+  );
+}
+
+function Benefit({ icon, title, body }) {
+  return (
+    <div style={{
+      background: c.white,
+      border: `1px solid ${c.ink200}`,
+      borderRadius: 14,
+      padding: 28,
+    }}>
+      <div style={{
+        width: 52, height: 52, borderRadius: 12,
+        background: c.green100, color: c.green800,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        marginBottom: 18,
+      }}>
+        {icon}
+      </div>
+      <h3 style={{ fontSize: 19, fontWeight: 700, color: c.ink900, marginBottom: 10 }}>{title}</h3>
+      <p style={{ fontSize: 15, lineHeight: 1.55, color: c.ink600, marginBottom: 0 }}>{body}</p>
+    </div>
+  );
+}
+
+// =========================================================
+// PAGE: Contact (with Netlify Forms)
+// =========================================================
+export function ContactContent() {
+  return (
+    <>
+      <PageHeader
+        eyebrow="Contact"
+        title="Offerte? Vraag? Inschrijving?"
+        intro="Vul het formulier in of bel direct. Pascal of Mark belt u dezelfde werkdag terug."
+      />
+      <Section>
+        <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 48 }}>
+          {/* Contact info */}
+          <div>
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: c.ink900, marginBottom: 24 }}>Direct contact</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <ContactBlock icon={<Phone size={20} />} title="Telefoon"
+                primary="[Telefoonnummer]"
+                secondary="Maandag t/m vrijdag, 8.00–17.30" />
+              <ContactBlock icon={<Mail size={20} />} title="E-mail"
+                primary="info@ps-connect.nl"
+                secondary="Reactie binnen 1 werkdag" />
+              <ContactBlock icon={<MapPin size={20} />} title="Vestiging"
+                primary="[Vestigingsadres]"
+                secondary="Den Helder / Alkmaar regio" />
+            </div>
+          </div>
+
+          {/* Form */}
+          <div style={{
+            background: c.green50,
+            border: `1px solid ${c.green200}`,
+            borderRadius: 16,
+            padding: 32,
+          }}>
+            <h2 style={{ fontSize: 22, fontWeight: 800, color: c.ink900, marginBottom: 8 }}>
+              Stuur ons een bericht
+            </h2>
+            <p style={{ fontSize: 14, color: c.ink600, marginBottom: 24 }}>
+              Wij nemen dezelfde werkdag contact op.
+            </p>
+
+            {/* Netlify Forms — works out of the box on Netlify */}
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              action="/contact?status=verzonden"
+            >
+              <input type="hidden" name="form-name" value="contact" />
+              <p style={{ display: 'none' }}>
+                <label>Niet invullen: <input name="bot-field" /></label>
+              </p>
+
+              <FormField label="Naam" name="naam" required />
+              <FormField label="Bedrijf" name="bedrijf" />
+              <FormField label="E-mail" name="email" type="email" required />
+              <FormField label="Telefoonnummer" name="telefoon" type="tel" />
+
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: c.ink700, marginBottom: 6 }}>
+                  Onderwerp
+                </label>
+                <select name="onderwerp" style={fieldStyle}>
+                  <option>Offerte aanvragen</option>
+                  <option>Algemene vraag</option>
+                  <option>Inschrijving flexkracht</option>
+                  <option>Vacature-vraag</option>
+                  <option>Anders</option>
+                </select>
+              </div>
+
+              <div style={{ marginBottom: 24 }}>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: c.ink700, marginBottom: 6 }}>
+                  Uw bericht
+                </label>
+                <textarea name="bericht" rows={5} style={{ ...fieldStyle, fontFamily: 'inherit', resize: 'vertical' }} required />
+              </div>
+
+              <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                Versturen <ArrowRight size={16} strokeWidth={2.5} />
+              </button>
+            </form>
+          </div>
+        </div>
+        <style>{`
+          @media (min-width: 820px) {
+            .contact-grid { grid-template-columns: 1fr 1.4fr !important; }
+          }
+        `}</style>
+      </Section>
+    </>
+  );
+}
+
+const fieldStyle = {
+  width: '100%',
+  padding: '12px 14px',
+  fontSize: 15,
+  border: `1px solid ${c.ink200}`,
+  borderRadius: 10,
+  background: c.white,
+  color: c.ink900,
+  outline: 'none',
+};
+
+function FormField({ label, name, type = 'text', required }) {
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: c.ink700, marginBottom: 6 }}>
+        {label}{required && <span style={{ color: c.danger, marginLeft: 4 }}>*</span>}
+      </label>
+      <input type={type} name={name} required={required} style={fieldStyle} />
+    </div>
+  );
+}
+
+function ContactBlock({ icon, title, primary, secondary }) {
+  return (
+    <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+      <div style={{
+        width: 44, height: 44, borderRadius: 10,
+        background: c.green100, color: c.green800,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexShrink: 0,
+      }}>
+        {icon}
+      </div>
+      <div>
+        <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: c.ink500, marginBottom: 4 }}>
+          {title}
+        </div>
+        <div style={{ fontSize: 17, fontWeight: 700, color: c.ink900, marginBottom: 2 }}>{primary}</div>
+        <div style={{ fontSize: 14, color: c.ink600 }}>{secondary}</div>
+      </div>
+    </div>
   );
 }
