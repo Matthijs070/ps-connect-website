@@ -1,0 +1,11 @@
+@import '../design-system/colors_and_type.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+:target { scroll-margin-top: 80px; }
