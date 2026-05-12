@@ -44,7 +44,7 @@ Per veiligheidsregel 4 (geen verzonnen cijfers/citaten) zijn de volgende items a
 placeholder of voorbeeld in de code opgenomen. Vóór launch invullen:
 
 ### Cijfers
-- [ ] Hero stat-tegels (`site.jsx` → `Hero`): "19", "4,2 jr", "2008" — **valideren**
+- [ ] Hero stat-tegels (`site.jsx` → `Hero`): "19", "4,2 jr", "2022" — **valideren**
 - [ ] Pakkettentarieven (`PakkettenSection`): "€ XX,XX" voor Basis / Gewoon Goed / All-In
 - [ ] Piekvolume bollen (`VoorWerkgeversContent`): "50–180 flexkrachten" — valideren
 

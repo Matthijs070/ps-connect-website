@@ -2,7 +2,7 @@ import { VoorWerkgeversContent } from '../../components/site';
 
 export const metadata = {
   title: 'Voor werkgevers — PS-Connect',
-  description: 'Drie sectoren waarin wij specialist zijn: bollen & glastuinbouw, logistiek, food & horeca. NH-Kop, sinds 2008.',
+  description: 'Drie sectoren waarin wij specialist zijn: bollen & glastuinbouw, logistiek, food & horeca. Noord-Holland, sinds 2022.',
 };
 
 export default function VoorWerkgeversPage() {

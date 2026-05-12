@@ -187,7 +187,7 @@ export function Footer() {
               PS-Connect
             </div>
             <p style={{ color: c.ink300, fontSize: 14, lineHeight: 1.5, marginBottom: 16, maxWidth: 280 }}>
-              Uitzendpartner voor agri, tuinbouw en logistiek in Noord-Holland. Sinds 2008.
+              Uitzendpartner voor agri, tuinbouw en logistiek in Noord-Holland. Sinds 2022.
             </p>
             <div style={{ display: 'flex', gap: 12 }}>
               <a href="https://www.linkedin.com" aria-label="LinkedIn"
@@ -384,9 +384,9 @@ export function Hero() {
         gap: 48, alignItems: 'center',
       }}>
         <div>
-          <p className="eyebrow">Uitzendpartner · NH-Kop · Sinds 2008</p>
+          <p className="eyebrow">Uitzendpartner · Noord-Holland · Sinds 2022</p>
           <h1 className="display-l" style={{ marginTop: 16, marginBottom: 24, color: c.ink900 }}>
-            Bollen, glastuinbouw, NH-Kop.<br />Sinds 2008.
+            Bollen, glastuinbouw, Noord-Holland.<br />Sinds 2022.
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.55, maxWidth: 560, color: c.ink700, marginBottom: 32 }}>
             Wij koppelen 19 werkgevers in agri, tuinbouw en logistiek aan
@@ -403,9 +403,9 @@ export function Hero() {
           </div>
         </div>
         <div style={{ display: 'grid', gap: 16 }}>
-          <StatTile value="19" label="Actieve klanten in NH-Kop" />
+          <StatTile value="19" label="Actieve klanten in Noord-Holland" />
           <StatTile value="4,2 jr" label="Gemiddelde samenwerking" />
-          <StatTile value="2008" label="Opgericht in Noord-Holland" />
+          <StatTile value="2022" label="Opgericht in Noord-Holland" />
         </div>
       </div>
       <style>{`
@@ -867,7 +867,7 @@ export function VoorWerkgeversContent() {
               {[
                 'Inzet binnen 48 uur bij capaciteitsuitval',
                 'Flexkrachten ingewerkt op WMS en scanners',
-                'Combinatieinzet over meerdere klanten in NH-Kop',
+                'Combinatieinzet over meerdere klanten in Noord-Holland',
                 'VCU-gecertificeerde uitzending voor risicovolle werkzaamheden',
               ].map((item, i) => (
                 <li key={i} style={{ display: 'flex', gap: 10, fontSize: 15, color: c.ink700 }}>
@@ -983,7 +983,7 @@ export function WerkwijzeContent() {
             title="Match & huisvesting"
             body="Wij selecteren flexkrachten op basis van uw vak, taal en seizoensgevoel. Voor arbeidsmigranten regelen wij huisvesting binnen ons eigen woningbestand — geen Airbnb-improvisatie, geen onderhuur via derden."
             details={[
-              'Eigen huisvestingsbestand in NH-Kop',
+              'Eigen huisvestingsbestand in Noord-Holland',
               'SNF-norm gevolgd waar van toepassing',
               'Pre-screening op vaardigheid en taal',
               'Documentcheck en compliance bij intake',
@@ -1166,7 +1166,7 @@ export function PakkettenContent() {
           {[
             { q: 'Kan ik wisselen tussen pakketten gedurende het jaar?', a: 'Ja. Veel klanten beginnen met Basis en stappen voor het volgende seizoen over op Gewoon Goed. Tussentijds wisselen kan ook in overleg.' },
             { q: 'Wat zit er niet inbegrepen?', a: 'Werkkleding, persoonlijke beschermingsmiddelen, en bedrijfsspecifieke training blijven uw verantwoordelijkheid. Wij kunnen wel adviseren over inkoop.' },
-            { q: 'Hoe werkt huisvesting voor arbeidsmigranten?', a: 'In Gewoon Goed en All-In regelen wij huisvesting binnen ons eigen woningbestand in NH-Kop. SNF-norm gevolgd. Geen onderhuur via derden.' },
+            { q: 'Hoe werkt huisvesting voor arbeidsmigranten?', a: 'In Gewoon Goed en All-In regelen wij huisvesting binnen ons eigen woningbestand in Noord-Holland. SNF-norm gevolgd. Geen onderhuur via derden.' },
             { q: 'Zijn er minimum-volumes?', a: 'Geen formele minima. Voor zeer kleine projecten (1–2 flexkrachten kortlopend) is een persoonlijk gesprek meestal de meest efficiënte route.' },
           ].map((item, i) => (
             <details key={i} style={{
@@ -1333,22 +1333,22 @@ export function OverOnsContent() {
           <div>
             <p className="eyebrow" style={{ marginBottom: 12 }}>Ons verhaal</p>
             <h2 className="display-m" style={{ color: c.ink900, marginBottom: 20 }}>
-              Sinds 2008 in Noord-Holland.
+              Sinds 2022 in Noord-Holland.
             </h2>
             <p style={{ fontSize: 16, lineHeight: 1.6, color: c.ink700, marginBottom: 16 }}>
               [Volledige bedrijfsgeschiedenis in te vullen] PS-Connect ontstond in
-              2008 vanuit de overtuiging dat een uitzendpartij die bollen en glas
+              2022 vanuit de overtuiging dat een uitzendpartij die bollen en glas
               kent niet via een 088-callcenter werkt. We zijn doelbewust regionaal
               gebleven en hebben gekozen voor diepte boven breedte.
             </p>
             <p style={{ fontSize: 16, lineHeight: 1.6, color: c.ink700 }}>
-              Vandaag werken wij voor 19 klanten in NH-Kop. Onze gemiddelde
+              Vandaag werken wij voor 19 klanten in Noord-Holland. Onze gemiddelde
               klantrelatie loopt al jaren door, omdat we mee weten te bewegen
               met de seizoenen, de markt, en de werkgever.
             </p>
           </div>
           <div style={{ display: 'grid', gap: 16 }}>
-            <StatTile value="2008" label="Opgericht in NH-Kop" />
+            <StatTile value="2022" label="Opgericht in Noord-Holland" />
             <StatTile value="19" label="Actieve klanten" />
             <StatTile value="3" label="Sectoren waarin wij specialist zijn" />
           </div>
@@ -1440,7 +1440,7 @@ export function VacaturesContent() {
       <PageHeader
         eyebrow="Vacatures"
         title="Werk in agri, tuinbouw, logistiek en horeca."
-        intro="Wij werken voor 19 werkgevers in NH-Kop. Hieronder enkele voorbeeldvacatures — actuele openstaande functies worden via deze pagina bijgewerkt."
+        intro="Wij werken voor 19 werkgevers in Noord-Holland. Hieronder enkele voorbeeldvacatures — actuele openstaande functies worden via deze pagina bijgewerkt."
       />
       <Section>
         <div style={{ marginBottom: 32, fontSize: 14, color: c.ink500, fontStyle: 'italic' }}>
@@ -1486,7 +1486,7 @@ export function WerkenBijContent() {
     <>
       <PageHeader
         eyebrow="Werken bij PS-Connect"
-        title="Werk in NH-Kop, met huisvesting als dat helpt."
+        title="Werk in Noord-Holland, met huisvesting als dat helpt."
         intro="Wij koppelen flexkrachten aan 19 werkgevers in Noord-Holland. Voor wie van buiten komt, regelen wij huisvesting binnen ons eigen woningbestand."
       />
 
@@ -1495,7 +1495,7 @@ export function WerkenBijContent() {
           <Benefit icon={<Briefcase size={26} />} title="Echt werk, echte werkgevers"
             body="Wij sturen u niet de stad door tussen acht verschillende uitzendpartijen. U werkt voor één van onze 19 klanten, met een vast aanspreekpunt." />
           <Benefit icon={<HomeIcon size={26} />} title="Huisvesting voor wie van buiten komt"
-            body="Eigen woningbestand in NH-Kop. SNF-norm waar van toepassing. Geen onderhuur, geen Airbnb-improvisatie." />
+            body="Eigen woningbestand in Noord-Holland. SNF-norm waar van toepassing. Geen onderhuur, geen Airbnb-improvisatie." />
           <Benefit icon={<Heart size={26} />} title="Korte lijn"
             body="Geen 088-callcenter. Pascal of Mark is bereikbaar als er iets is met uw loon, uw rooster of uw huisvesting." />
           <Benefit icon={<Building2 size={26} />} title="Doorgroeimogelijkheid"
