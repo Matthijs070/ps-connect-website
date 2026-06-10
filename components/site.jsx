@@ -14,7 +14,7 @@ import {
   Phone, Mail, MapPin, Linkedin,
   Award, Shield, FileCheck,
   Briefcase, Heart, Building2,
-  ChevronRight,
+  ChevronRight, Compass, UserSearch, Calendar,
 } from 'lucide-react';
 
 export const c = {
@@ -487,6 +487,156 @@ export function SectorenSection() {
       <style>{`
         @media (min-width: 768px) {
           .sector-grid { grid-template-columns: repeat(3, 1fr) !important; }
+        }
+      `}</style>
+    </Section>
+  );
+}
+
+// =========================================================
+// Region map — stylized SVG of 60km service area around Schagen
+// Coordinates approximated from real lat/lon (1 km = 2.5 px).
+// VERIFY-data: bevestig welke randplaatsen wel/niet binnen ons bereik vallen.
+// =========================================================
+function RegioKaart() {
+  return (
+    <svg
+      viewBox="0 0 480 540"
+      role="img"
+      aria-label="Kaart van werkgebied PS-Connect rond Schagen, met een radius van ongeveer 60 kilometer."
+      style={{ width: '100%', height: 'auto', maxWidth: 520, display: 'block' }}
+    >
+      {/* Land background */}
+      <rect x="0" y="0" width="480" height="540" fill={c.green50} />
+
+      {/* North Sea hint (west) */}
+      <path
+        d="M 0 0 L 165 0 Q 155 80, 140 180 Q 130 280, 145 380 Q 155 470, 150 540 L 0 540 Z"
+        fill="#DCEEF4"
+        opacity="0.85"
+      />
+
+      {/* IJsselmeer / Markermeer hint (east) */}
+      <path
+        d="M 480 220 Q 455 290, 425 360 Q 415 440, 420 540 L 480 540 Z"
+        fill="#DCEEF4"
+        opacity="0.85"
+      />
+
+      {/* Afsluitdijk hint */}
+      <path d="M 360 220 Q 410 215, 460 218" stroke="#B7D5DE" strokeWidth="3" fill="none" opacity="0.7" />
+
+      {/* 60 km radius — filled translucent + dashed border */}
+      <circle cx="240" cy="270" r="150" fill={c.green200} fillOpacity="0.32" />
+      <circle cx="240" cy="270" r="150" fill="none" stroke={c.green700} strokeWidth="2" strokeDasharray="6 5" />
+
+      {/* Radius label on circle top */}
+      <text x="240" y="108" textAnchor="middle" fontSize="13" fontWeight="700" fill={c.green800}>
+        ±60 km werkgebied
+      </text>
+
+      {/* North compass top-right */}
+      <g transform="translate(430, 50)">
+        <circle r="18" fill={c.white} stroke={c.ink300} strokeWidth="1" />
+        <polygon points="0,-12 4,0 0,4 -4,0" fill={c.green800} />
+        <text y="-22" textAnchor="middle" fontSize="11" fontWeight="700" fill={c.ink700}>N</text>
+      </g>
+
+      {/* Cities around Schagen */}
+      <g fontSize="11" fontWeight="600" fill={c.ink700}>
+        {/* Texel */}
+        <circle cx="240" cy="192" r="3" fill={c.ink600} />
+        <text x="246" y="196">Texel</text>
+
+        {/* Den Helder */}
+        <circle cx="200" cy="222" r="3" fill={c.ink600} />
+        <text x="148" y="226">Den Helder</text>
+
+        {/* Alkmaar */}
+        <circle cx="232" cy="315" r="3" fill={c.ink600} />
+        <text x="186" y="328">Alkmaar</text>
+
+        {/* Heerhugowaard */}
+        <circle cx="255" cy="304" r="3" fill={c.ink600} />
+        <text x="261" y="302">Heerhugowaard</text>
+
+        {/* Hoorn */}
+        <circle cx="285" cy="320" r="3" fill={c.ink600} />
+        <text x="291" y="324">Hoorn</text>
+
+        {/* Enkhuizen */}
+        <circle cx="322" cy="295" r="3" fill={c.ink600} />
+        <text x="328" y="299">Enkhuizen</text>
+
+        {/* Purmerend */}
+        <circle cx="252" cy="354" r="3" fill={c.ink600} />
+        <text x="258" y="358">Purmerend</text>
+
+        {/* Haarlem */}
+        <circle cx="215" cy="382" r="3" fill={c.ink600} />
+        <text x="164" y="386">Haarlem</text>
+
+        {/* Amsterdam */}
+        <circle cx="260" cy="388" r="3" fill={c.ink600} />
+        <text x="266" y="392">Amsterdam</text>
+      </g>
+
+      {/* Schagen — prominent center pin */}
+      <g>
+        <circle cx="240" cy="270" r="14" fill={c.green700} opacity="0.22" />
+        <circle cx="240" cy="270" r="8" fill={c.green700} />
+        <circle cx="240" cy="270" r="3" fill={c.white} />
+        <text x="240" y="252" textAnchor="middle" fontSize="14" fontWeight="800" fill={c.green900}>
+          Schagen
+        </text>
+      </g>
+    </svg>
+  );
+}
+
+export function RegioSection() {
+  return (
+    <Section background={c.white}>
+      <SectionHeader
+        eyebrow="Ons werkgebied"
+        title="Schagen als kern. Noord-Holland Noord als werkgebied."
+        intro="Wij zijn lokaal — vanuit Schagen werken wij in een straal van zo'n 60 kilometer. Daarbuiten zetten wij flexkrachten landelijk in wanneer u zelf huisvesting heeft."
+      />
+      <div className="regio-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40, alignItems: 'center' }}>
+        <div>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {[
+              { icon: <MapPin size={18} strokeWidth={2.5} />, t: 'Hoofdvestiging Schagen', s: 'Werkgebied loopt van Texel en Den Helder tot Amsterdam, Haarlem en Enkhuizen.' },
+              { icon: <Calendar size={18} strokeWidth={2.5} />, t: 'Tweewekelijks op locatie', s: 'Pascal of Mark komt elke twee weken langs bij vaste klanten. Geen ticket-systeem, geen e-mailcarrousel.' },
+              { icon: <Users size={18} strokeWidth={2.5} />, t: 'Aanwezig bij opstart', s: 'Bij een nieuw seizoen of een nieuwe klant zijn we de eerste dagen fysiek aanwezig op de werkvloer.' },
+              { icon: <Compass size={18} strokeWidth={2.5} />, t: 'Landelijk bij eigen huisvesting', s: 'Buiten ons werkgebied zetten wij flexkrachten in wanneer u zelf de huisvesting regelt — bijvoorbeeld bij productielocaties elders in NL.' },
+            ].map((item, i) => (
+              <li key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                <div style={{
+                  width: 36, height: 36, borderRadius: 10,
+                  background: c.green100, color: c.green800,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}>
+                  {item.icon}
+                </div>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: c.ink900, marginBottom: 2 }}>{item.t}</div>
+                  <div style={{ fontSize: 14, color: c.ink600, lineHeight: 1.55 }}>{item.s}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <RegioKaart />
+        </div>
+      </div>
+      <p style={{ marginTop: 28, fontSize: 12, color: c.ink500, fontStyle: 'italic' }}>
+        Kaartweergave is indicatief. Werkelijke inzetbaarheid hangt af van rijtijd, dienstvenster en huisvesting. [VERIFY: bevestig randplaatsen die nog binnen het gewenste werkgebied vallen.]
+      </p>
+      <style>{`
+        @media (min-width: 880px) {
+          .regio-grid { grid-template-columns: 1fr 1fr !important; }
         }
       `}</style>
     </Section>
@@ -1361,6 +1511,8 @@ export function OverOnsContent() {
           }
         `}</style>
       </Section>
+
+      <RegioSection />
 
       <Section>
         <SectionHeader

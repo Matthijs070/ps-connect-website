@@ -1,6 +1,7 @@
 import {
   Hero,
   SectorenSection,
+  RegioSection,
   WerkwijzeSection,
   PakkettenSection,
   CasesPreviewSection,
@@ -17,6 +18,7 @@ export default function HomePage() {
     <>
       <Hero />
       <SectorenSection />
+      <RegioSection />
       <WerkwijzeSection />
       <PakkettenSection />
       <CasesPreviewSection />
