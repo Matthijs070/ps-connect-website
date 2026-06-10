@@ -802,7 +802,9 @@ function PakketCard({ tag, name, price, priceUnit, features, ctaText, ctaHref, h
       padding: '32px 28px',
       position: 'relative',
       boxShadow: highlight ? 'var(--shadow-md)' : 'var(--shadow-sm)',
-      transform: highlight ? 'translateY(-4px)' : 'none',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
     }}>
       {tag && (
         <div style={{
@@ -815,11 +817,15 @@ function PakketCard({ tag, name, price, priceUnit, features, ctaText, ctaHref, h
         </div>
       )}
       <h3 style={{ fontSize: 22, fontWeight: 800, color: c.ink900, marginBottom: 6 }}>{name}</h3>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 24 }}>
-        <span className="num" style={{ fontSize: 38, fontWeight: 700, color: c.green800 }}>{price}</span>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 24, minHeight: 52 }}>
+        <span className="num" style={{ fontSize: 38, fontWeight: 700, color: c.green800, lineHeight: 1 }}>{price}</span>
         <span style={{ fontSize: 14, color: c.ink500 }}>{priceUnit}</span>
       </div>
-      <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <ul style={{
+        listStyle: 'none', padding: 0, margin: '0 0 28px',
+        display: 'flex', flexDirection: 'column', gap: 12,
+        flexGrow: 1,
+      }}>
         {features.map((f, i) => (
           <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 15, color: c.ink700, lineHeight: 1.5 }}>
             <Check size={18} strokeWidth={2.5} style={{ color: c.green700, flexShrink: 0, marginTop: 2 }} />
@@ -827,7 +833,11 @@ function PakketCard({ tag, name, price, priceUnit, features, ctaText, ctaHref, h
           </li>
         ))}
       </ul>
-      <a href={ctaHref} className={highlight ? 'btn btn-primary' : 'btn btn-secondary'} style={{ width: '100%', justifyContent: 'center' }}>
+      <a
+        href={ctaHref}
+        className={highlight ? 'btn btn-primary' : 'btn btn-secondary'}
+        style={{ width: '100%', justifyContent: 'center', marginTop: 'auto' }}
+      >
         {ctaText}
       </a>
     </div>
