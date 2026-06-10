@@ -28,12 +28,12 @@ In de Codespace verschijnt een popup met "Open in Browser" — dat is je live pr
 
 | Route | Doel |
 |---|---|
-| `/` | Home — 6 secties (Hero, Sectoren, Werkwijze, Pakketten, Cases, Final CTA) |
-| `/voor-werkgevers` | Drie sectoren in detail (anchors: `#bollen-glastuinbouw`, `#logistiek`, `#food-horeca`) |
-| `/werkwijze` | Vier stappen uitgewerkt + certificeringen |
+| `/` | Home — Hero, Sectoren, Regio, Werkwijze, Recruitment, Pakketten, Cases, Final CTA |
+| `/voor-werkgevers` | Drie sectoren in detail (anchors: `#openteelt-tuinbouw`, `#logistiek-distributie`, `#facilitair`) — bevat interactieve seizoenstijdlijn voor agri |
+| `/werkwijze` | Vier stappen uitgewerkt + Recruitment-blok + certificeringen |
 | `/pakketten` | Pakkettenoverzicht, vergelijkingstabel, FAQ |
 | `/cases` | 4 voorbeeldcases (placeholders) |
-| `/over-ons` | Team, verhaal, stats, certificeringen |
+| `/over-ons` | Team, verhaal (tegengeluid-frame), regio, certificeringen |
 | `/vacatures` | Voorbeeldvacatures + inschrijfblok |
 | `/werken-bij` | Voor flexkrachten — benefits + CTA naar vacatures |
 | `/contact` | Direct contact + Netlify Forms formulier |
@@ -44,9 +44,29 @@ Per veiligheidsregel 4 (geen verzonnen cijfers/citaten) zijn de volgende items a
 placeholder of voorbeeld in de code opgenomen. Vóór launch invullen:
 
 ### Cijfers
-- [ ] Hero stat-tegels (`site.jsx` → `Hero`): "19", "4,2 jr", "2022" — **valideren**
+- [ ] Hero stat-tegels (`site.jsx` → `Hero`): "~30" werkgevers, "4,2 jr" gemiddelde samenwerking, "2022" oprichting — **valideren** (exact werkgever-aantal)
 - [ ] Pakkettentarieven (`PakkettenSection`): "€ XX,XX" voor Basis / Gewoon Goed / All-In
-- [ ] Piekvolume bollen (`VoorWerkgeversContent`): "50–180 flexkrachten" — valideren
+- [ ] Piekvolume per sector (`VoorWerkgeversContent`):
+  - Openteelt & (glas)tuinbouw: "50–180 flexkrachten" — valideren
+  - Logistiek & distributie: "5–40 flexkrachten doorlopend" — valideren
+  - Facilitair: "2–15 flexkrachten" — valideren
+- [ ] Over ons stats (`OverOnsContent`): "~30" actieve klanten — valideren
+
+### Regio (`RegioSection`)
+- [ ] Randplaatsen die wel/niet binnen werkgebied vallen bevestigen (kaartweergave is indicatief)
+- [ ] Werkgebied-straal "±60 km" valideren
+
+### Sectoren — Facilitair (`VoorWerkgeversContent → #facilitair`)
+- [ ] Scope bevestigen: welke facilitaire werkzaamheden binnen aanbod vallen (schoonmaak, groen, hospitality, receptie, …)
+- [ ] Typische locatie + schaal voor de facilitair-voorbeeldcase
+
+### Seizoenstijdlijn agri (`SeizoenstijdlijnAgri` in `VoorWerkgeversContent`)
+- [ ] Intensiteit per teelt per maand valideren (matrices `SEIZOEN_INTENSITEIT`)
+- [ ] Werkzaamheden per teelt per maand valideren (matrix `SEIZOEN_DETAILS`)
+
+### Recruitment (`RecruitmentSection`)
+- [ ] Polen: regio('s), aantal recruiters, sinds wanneer
+- [ ] Roemenië: regio('s), aantal recruiters, sinds wanneer
 
 ### Contactgegevens
 - [ ] Telefoonnummer (vervang `[Telefoonnummer]` in `Footer`, `ContactContent`, `FinalCTA tel:`)
@@ -54,19 +74,25 @@ placeholder of voorbeeld in de code opgenomen. Vóór launch invullen:
 
 ### Cases
 - [ ] Vier placeholder-cases vervangen door echte klantnamen + cijfers zodra toestemming geregeld is
-
-### Team-bios
-- [ ] Pascal, Mark, Matthijs bios in `OverOnsContent → TeamCard`
-
-### Bedrijfsgeschiedenis
-- [ ] Volledige tekst in `OverOnsContent` (zoekterm: `[Volledige bedrijfsgeschiedenis in te vullen]`)
-
-### Logo
-- [ ] Origineel PNG-logo plaatsen in `public/images/logo.png` en gebruiken in `Nav` + `Footer`
-- [ ] Favicon toevoegen aan `app/icon.png` of `app/favicon.ico`
+- [ ] Facilitair-case (`CasesContent`): locatie en schaal invullen
 
 ### Vacatures
-- [ ] Werkelijke openstaande vacatures in `VacaturesContent` (vervangt voorbeeldlijst)
+- [ ] Werkelijke openstaande vacatures in `VacaturesContent` (vervangt voorbeeldlijst — incl. facilitair-voorbeeld met `[VERIFY locatie]`)
+
+### Foto's — image-slots (`ImageSlot` component)
+Elke `ImageSlot` toont een gedashte placeholder met VERIFY-badge en omschrijving van het gewenste beeld. In te vullen per locatie:
+- [ ] Hero (`Hero`): warme regiofoto (Pascal op locatie of bollenveld bij Schagen)
+- [ ] Sectoren homepage (`SectorenSection`, 3x):
+  - Openteelt & (glas)tuinbouw: bollenveld of sorteerlijn klant
+  - Logistiek & distributie: magazijn of dock-werkzaamheden klant
+  - Facilitair: schoonmaak, hospitality of receptie
+- [ ] Team (`OverOnsContent → TeamCard`, 3x): portretfoto's Pascal, Mark, Matthijs (circulair)
+- [ ] Ons verhaal (`OverOnsContent`): team-foto of sfeerbeeld vestiging Schagen
+- [ ] Logo: PNG plaatsen in `public/images/logo.png` en gebruiken in `Nav` + `Footer`
+- [ ] Favicon toevoegen aan `app/icon.png` of `app/favicon.ico`
+
+### Team-bios
+- [ ] Pascal, Mark, Matthijs bios in `OverOnsContent → TeamCard` (huidige tekst draagt `[Bio in te vullen]`-prefix)
 
 ## OPSEC
 
