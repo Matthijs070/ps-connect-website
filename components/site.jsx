@@ -698,6 +698,99 @@ export function WerkwijzeSection() {
 }
 
 // =========================================================
+// Recruitment — eigen recruiters in PL/RO, geen tussenpartijen
+// VERIFY: aantal recruiters per land, regio's, talen, sinds wanneer.
+// =========================================================
+function CountryTile({ code, country, body }) {
+  return (
+    <div style={{
+      background: c.white,
+      border: `1px solid ${c.ink200}`,
+      borderRadius: 14,
+      padding: 24,
+      display: 'flex',
+      gap: 16,
+      alignItems: 'flex-start',
+    }}>
+      <div style={{
+        width: 48, height: 48, borderRadius: 10,
+        background: c.green100, color: c.green800,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
+        flexShrink: 0, letterSpacing: '0.04em',
+      }}>
+        {code}
+      </div>
+      <div>
+        <div style={{ fontSize: 17, fontWeight: 700, color: c.ink900, marginBottom: 6 }}>{country}</div>
+        <p style={{ fontSize: 14, lineHeight: 1.55, color: c.ink600, marginBottom: 0 }}>{body}</p>
+      </div>
+    </div>
+  );
+}
+
+export function RecruitmentSection() {
+  return (
+    <Section background={c.ink50}>
+      <SectionHeader
+        eyebrow="Werving aan de bron"
+        title="Eigen recruiters in Polen en Roemenië."
+        intro="Geen tussenliggende uitzendpartijen, geen wervingsketens. Onze recruiters wonen in de wervingsregio's, spreken de taal en kennen onze flexkrachten persoonlijk voordat ze in Nederland aan de slag gaan."
+      />
+      <div className="recruit-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 32 }}>
+        <div>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {[
+              { t: 'Directe werving, geen tussenpartijen', s: 'Wij betalen geen wervingsfees aan derden. Dat scheelt in de prijs en in de vertrouwensketen.' },
+              { t: 'Persoonlijke intake ter plekke', s: 'Onze recruiters spreken iedereen face-to-face, controleren werkervaring en checken documenten voor vertrek.' },
+              { t: 'Eerlijk verhaal vooraf', s: 'Salaris, huisvesting, werk- en reistijden — we leggen het uit in de eigen taal. Geen verrassingen bij aankomst.' },
+              { t: 'Vaste pool, terugkerende krachten', s: 'Veel van onze flexkrachten komen meerdere seizoenen terug. Bekend met de werkgever, bekend met de regio.' },
+            ].map((item, i) => (
+              <li key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                <Check size={20} strokeWidth={2.5} style={{ color: c.green700, flexShrink: 0, marginTop: 2 }} />
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: c.ink900, marginBottom: 2 }}>{item.t}</div>
+                  <div style={{ fontSize: 14, color: c.ink600, lineHeight: 1.55 }}>{item.s}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div style={{ display: 'grid', gap: 16 }}>
+          <CountryTile
+            code="PL"
+            country="Polen"
+            body="Eigen recruiter ter plekke. [VERIFY: regio, sinds wanneer, aantal recruiters.] Werving vooral voor agri en logistiek."
+          />
+          <CountryTile
+            code="RO"
+            country="Roemenië"
+            body="Eigen recruiter ter plekke. [VERIFY: regio, sinds wanneer.] Werving voor tuinbouw, logistiek en facilitair."
+          />
+          <div style={{
+            background: c.green50,
+            border: `1px solid ${c.green200}`,
+            borderRadius: 14,
+            padding: 20,
+            display: 'flex', gap: 14, alignItems: 'flex-start',
+          }}>
+            <UserSearch size={22} strokeWidth={2} style={{ color: c.green800, flexShrink: 0, marginTop: 2 }} />
+            <div style={{ fontSize: 14, color: c.ink700, lineHeight: 1.55 }}>
+              Onze recruiters werken nauw samen met onze planners in Schagen. Pieken in vraag worden direct doorgezet naar de wervingskanalen.
+            </div>
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @media (min-width: 880px) {
+          .recruit-grid { grid-template-columns: 1.2fr 1fr !important; }
+        }
+      `}</style>
+    </Section>
+  );
+}
+
+// =========================================================
 // HOMEPAGE — Section 4: Pakketten
 // =========================================================
 function PakketCard({ tag, name, price, priceUnit, features, ctaText, ctaHref, highlight }) {
@@ -1165,6 +1258,8 @@ export function WerkwijzeContent() {
           />
         </div>
       </Section>
+
+      <RecruitmentSection />
 
       <Section background={c.green50}>
         <SectionHeader

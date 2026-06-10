@@ -3,6 +3,7 @@ import {
   SectorenSection,
   RegioSection,
   WerkwijzeSection,
+  RecruitmentSection,
   PakkettenSection,
   CasesPreviewSection,
   FinalCTA,
@@ -20,6 +21,7 @@ export default function HomePage() {
       <SectorenSection />
       <RegioSection />
       <WerkwijzeSection />
+      <RecruitmentSection />
       <PakkettenSection />
       <CasesPreviewSection />
       <FinalCTA />
