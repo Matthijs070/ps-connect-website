@@ -3,7 +3,7 @@ import { Nav, Footer } from '../components/site';
 
 export const metadata = {
   title: 'PS-Connect — Uitzendpartner Noord-Holland Noord',
-  description: 'Uitzendbureau voor agri, glastuinbouw en logistiek in Noord-Holland Noord. Sinds 2022.',
+  description: 'Uitzendbureau voor openteelt en (glas)tuinbouw, logistiek & distributie en facilitair in Noord-Holland Noord. Sinds 2022.',
 };
 
 export default function RootLayout({ children }) {

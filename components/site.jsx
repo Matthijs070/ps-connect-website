@@ -9,7 +9,7 @@
 import { useState } from 'react';
 import {
   ArrowRight, Menu, X, Check,
-  Sprout, Truck, UtensilsCrossed,
+  Sprout, Truck,
   MessageCircle, Home as HomeIcon, Users, ClipboardCheck,
   Phone, Mail, MapPin, Linkedin,
   Award, Shield, FileCheck,
@@ -460,28 +460,28 @@ export function SectorenSection() {
       <SectionHeader
         eyebrow="Voor wie wij werken"
         title="Drie sectoren waarin wij thuis zijn."
-        intro="Geen breed assortiment dat alles voor iedereen claimt te kunnen. Bollen en glastuinbouw zijn onze kern; logistiek en food zijn de groeisectoren waar we sinds 2022 in opbouwen."
+        intro="Geen breed assortiment dat alles voor iedereen claimt te kunnen. Openteelt en (glas)tuinbouw zijn onze kern; daarnaast werken wij voor logistiek & distributie en voor facilitaire dienstverlening."
       />
       <div className="sector-grid" style={{
         display: 'grid', gridTemplateColumns: '1fr', gap: 20,
       }}>
         <SectorCard
           icon={<Sprout size={28} strokeWidth={2} />}
-          title="Bollen & glastuinbouw"
-          body="Wij kennen het mei-pieksysteem, het bollenrooi-ritme en de planning rond knolontsmetting. Onze flexkrachten zijn ingewerkt op de sorteerlijn voordat de schaal omhoog gaat."
-          href="/voor-werkgevers#bollen-glastuinbouw"
+          title="Openteelt & (glas)tuinbouw"
+          body="Bollen, broeierij, vollegrondsteelt en glastuinbouw — wij plannen op het ritme van het seizoen. Mei-pieken, bollenrooi, knolontsmetting, gerbera-pluk: onze flexkrachten zijn ingewerkt voordat de schaal omhoog gaat."
+          href="/voor-werkgevers#openteelt-tuinbouw"
         />
         <SectorCard
           icon={<Truck size={28} strokeWidth={2} />}
-          title="Logistiek"
-          body="Magazijn-, dock- en routewerk. Wij plannen met uw dock-windows en weten welke werknemers prettig samenwerken met geautomatiseerde processen."
-          href="/voor-werkgevers#logistiek"
+          title="Logistiek & distributie"
+          body="Magazijn-, dock-, en routewerk. RDC, DC en cross-dock. Wij plannen rond uw dock-windows en zetten flexkrachten in die ingewerkt zijn op WMS en scanners."
+          href="/voor-werkgevers#logistiek-distributie"
         />
         <SectorCard
-          icon={<UtensilsCrossed size={28} strokeWidth={2} />}
-          title="Food & horeca"
-          body="Sinds 2022 een groeiende tak. Productie, verpakking, en horeca-ondersteuning. Hotel Alkmaar als startklant, opening naar bredere food-keten."
-          href="/voor-werkgevers#food-horeca"
+          icon={<Building2 size={28} strokeWidth={2} />}
+          title="Facilitair"
+          body="Schoonmaak, hospitality-ondersteuning en algemene facilitaire dienstverlening. Inzetbaar in vaste roosters of voor projecten en pieken."
+          href="/voor-werkgevers#facilitair"
         />
       </div>
       <style>{`
@@ -1045,9 +1045,9 @@ export function VoorWerkgeversContent() {
       <PageHeader
         eyebrow="Voor werkgevers"
         title="Drie sectoren. Eén partner die uw vak kent."
-        intro="Wij hebben bewust geen breed assortiment. Onze diepte zit in bollen en glastuinbouw, met groeiposities in logistiek en food."
+        intro="Wij hebben bewust geen breed assortiment. Onze diepte zit in openteelt en (glas)tuinbouw, met aanvullende sectoren in logistiek & distributie en facilitaire dienstverlening."
       />
-      <Section id="bollen-glastuinbouw">
+      <Section id="openteelt-tuinbouw">
         <div className="vw-sector" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40, alignItems: 'start' }}>
           <div>
             <div style={{
@@ -1058,18 +1058,19 @@ export function VoorWerkgeversContent() {
             }}>
               <Sprout size={32} strokeWidth={2} />
             </div>
-            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 16 }}>Bollen & glastuinbouw</h2>
+            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 16 }}>Openteelt & (glas)tuinbouw</h2>
             <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink700, marginBottom: 20 }}>
-              Onze kern. De meeste van onze flexkrachten zijn meermaals ingewerkt op
-              specifieke werkzaamheden: sorteerlijnen, knolontsmetting, bollenrooi,
-              gerbera-pluk, paprika-oogst.
+              Onze kern. Bollen, broeierij, vollegrondsteelt en glastuinbouw — wij
+              plannen mee met het ritme van het seizoen. De meeste van onze
+              flexkrachten zijn meermaals ingewerkt op specifieke werkzaamheden:
+              sorteerlijnen, knolontsmetting, bollenrooi, gerbera-pluk, paprika-oogst.
             </p>
             <h3 style={{ fontSize: 17, fontWeight: 700, color: c.ink900, marginBottom: 12 }}>Wat wij anders doen:</h3>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
                 'Capaciteitsplanning volgt uw seizoen, niet ons rooster',
                 'Mei-pieksysteem ingebouwd in onze planning',
-                'Huisvesting voor terugkerende migranten geregeld in eigen woningbestand',
+                'Huisvesting voor terugkerende migranten geregeld via eigen locaties en vaste partners',
                 'Pascal bezoekt uw bedrijf vóór het seizoen, niet pas bij een storing',
               ].map((item, i) => (
                 <li key={i} style={{ display: 'flex', gap: 10, fontSize: 15, color: c.ink700 }}>
@@ -1082,16 +1083,16 @@ export function VoorWerkgeversContent() {
           <div style={{ background: c.green50, borderRadius: 16, padding: 32, border: `1px solid ${c.green200}` }}>
             <p className="eyebrow" style={{ marginBottom: 12 }}>Typische inzet</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              <FactRow label="Piekvolume" value="50–180 flexkrachten" />
+              <FactRow label="Piekvolume" value="50–180 flexkrachten [VERIFY]" />
               <FactRow label="Seizoenspatroon" value="Mei–september" />
-              <FactRow label="Werkzaamheden" value="Pluk, sortering, verpakking" />
+              <FactRow label="Werkzaamheden" value="Pluk, sortering, verpakking, broeierij" />
               <FactRow label="Huisvesting" value="Veelal nodig, wij regelen" />
             </div>
           </div>
         </div>
       </Section>
 
-      <Section background={c.ink50} id="logistiek">
+      <Section background={c.ink50} id="logistiek-distributie">
         <div className="vw-sector" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40, alignItems: 'start' }}>
           <div>
             <div style={{
@@ -1102,10 +1103,11 @@ export function VoorWerkgeversContent() {
             }}>
               <Truck size={32} strokeWidth={2} />
             </div>
-            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 16 }}>Logistiek</h2>
+            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 16 }}>Logistiek & distributie</h2>
             <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink700, marginBottom: 20 }}>
-              Magazijn-, dock- en routewerk. Wij plannen rond uw dock-windows en
-              kennen de verschillen tussen RDC-, DC- en cross-dock-omgevingen.
+              Magazijn-, dock- en routewerk. RDC, DC en cross-dock. Wij plannen
+              rond uw dock-windows en zetten flexkrachten in die ingewerkt zijn
+              op WMS en scanners.
             </p>
             <h3 style={{ fontSize: 17, fontWeight: 700, color: c.ink900, marginBottom: 12 }}>Wat wij anders doen:</h3>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -1125,7 +1127,7 @@ export function VoorWerkgeversContent() {
           <div style={{ background: c.white, borderRadius: 16, padding: 32, border: `1px solid ${c.ink200}` }}>
             <p className="eyebrow" style={{ marginBottom: 12 }}>Typische inzet</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              <FactRow label="Volume" value="5–40 flexkrachten doorlopend" />
+              <FactRow label="Volume" value="5–40 flexkrachten doorlopend [VERIFY]" />
               <FactRow label="Werkdagen" value="Ma–za, ploegen mogelijk" />
               <FactRow label="Functies" value="Orderpicker, heftruck, expeditie" />
               <FactRow label="Snelle inzet" value="Binnen 48u bij uitval" />
@@ -1134,7 +1136,7 @@ export function VoorWerkgeversContent() {
         </div>
       </Section>
 
-      <Section id="food-horeca">
+      <Section id="facilitair">
         <div className="vw-sector" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40, alignItems: 'start' }}>
           <div>
             <div style={{
@@ -1143,21 +1145,23 @@ export function VoorWerkgeversContent() {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               marginBottom: 24,
             }}>
-              <UtensilsCrossed size={32} strokeWidth={2} />
+              <Building2 size={32} strokeWidth={2} />
             </div>
-            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 16 }}>Food & horeca</h2>
+            <h2 className="display-m" style={{ color: c.ink900, marginBottom: 16 }}>Facilitair</h2>
             <p style={{ fontSize: 17, lineHeight: 1.6, color: c.ink700, marginBottom: 20 }}>
-              Sinds 2022 een groeiende tak. Wij ondersteunen voedselproductie,
-              verpakking en horeca. Hotel Alkmaar is onze startklant in deze
-              sector; we breiden gestructureerd uit met vergelijkbare partijen.
+              Schoonmaak, hospitality-ondersteuning en algemene facilitaire
+              dienstverlening. Inzetbaar in vaste roosters of voor projecten
+              en pieken. [VERIFY: bevestig welke facilitaire werkzaamheden
+              binnen scope vallen — bijv. schoonmaak, groenvoorziening,
+              receptie/hospitality.]
             </p>
             <h3 style={{ fontSize: 17, fontWeight: 700, color: c.ink900, marginBottom: 12 }}>Wat wij anders doen:</h3>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
-                'Flexibele weekendinzet voor horeca-pieken',
-                'HACCP-bewuste flexkrachten in voedselproductie',
+                'Korte lijn met opdrachtgever — geen call-center-tussenlaag',
+                'Vaste pool waar mogelijk, geen anonieme inzet',
                 'Inzet ook voor kortlopende projecten en evenementen',
-                'Doorgroeimogelijkheid: tijdelijke kracht wordt seizoenskracht',
+                'Combinatie met huisvesting wanneer dat helpt',
               ].map((item, i) => (
                 <li key={i} style={{ display: 'flex', gap: 10, fontSize: 15, color: c.ink700 }}>
                   <Check size={18} strokeWidth={2.5} style={{ color: c.green700, flexShrink: 0, marginTop: 2 }} />
@@ -1169,10 +1173,10 @@ export function VoorWerkgeversContent() {
           <div style={{ background: c.green50, borderRadius: 16, padding: 32, border: `1px solid ${c.green200}` }}>
             <p className="eyebrow" style={{ marginBottom: 12 }}>Typische inzet</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              <FactRow label="Volume" value="2–15 flexkrachten" />
-              <FactRow label="Werkmoment" value="Weekends en avonduren" />
-              <FactRow label="Functies" value="Bediening, productie, verpakking" />
-              <FactRow label="Aandachtspunten" value="HACCP en allergenenkennis" />
+              <FactRow label="Volume" value="2–15 flexkrachten [VERIFY]" />
+              <FactRow label="Werkmoment" value="Vast rooster of projectbasis" />
+              <FactRow label="Functies" value="Schoonmaak, hospitality, facilitair" />
+              <FactRow label="Werkgebied" value="Noord-Holland Noord, ±60 km" />
             </div>
           </div>
         </div>
@@ -1481,12 +1485,12 @@ export function CasesContent() {
             resultaat="Vaste pool van 8–12 flexkrachten beschikbaar binnen 48u. Combinatie met cross-dock werkzaamheden mogelijk."
           />
           <CaseCard
-            sector="Food/horeca"
-            locatie="Alkmaar"
-            schaal="Hotel · 95 kamers"
+            sector="Facilitair"
+            locatie="[VERIFY locatie]"
+            schaal="[VERIFY schaal]"
             klantSinds="2022"
-            beschrijving="[Voorbeeldcase] Weekendondersteuning bediening en housekeeping."
-            resultaat="Stabiele weekendinzet. Geen no-shows in 2023, beperkte uitval in 2024 ondanks krappe arbeidsmarkt."
+            beschrijving="[Voorbeeldcase] Vaste pool voor schoonmaak en hospitality-ondersteuning."
+            resultaat="Stabiele weekendinzet, geen no-shows over meerdere kwartalen. Vaste gezichten op locatie."
           />
         </div>
         <p style={{ marginTop: 32, fontSize: 13, color: c.ink500, fontStyle: 'italic' }}>
@@ -1681,14 +1685,14 @@ export function VacaturesContent() {
     { title: 'Medewerker bollensorteerlijn', sector: 'Bollenteelt', locatie: 'Schagen', type: 'Seizoenswerk' },
     { title: 'Orderpicker', sector: 'Logistiek', locatie: 'Den Helder', type: 'Doorlopend' },
     { title: 'Medewerker glasgroenten', sector: 'Glastuinbouw', locatie: 'Heerhugowaard', type: 'Seizoenswerk' },
-    { title: 'Medewerker bediening (weekenden)', sector: 'Horeca', locatie: 'Alkmaar', type: 'Weekend' },
+    { title: 'Medewerker schoonmaak / hospitality', sector: 'Facilitair', locatie: '[VERIFY locatie]', type: 'Vast/projectbasis' },
   ];
 
   return (
     <>
       <PageHeader
         eyebrow="Vacatures"
-        title="Werk in agri, tuinbouw, logistiek en horeca."
+        title="Werk in agri, tuinbouw, logistiek en facilitair."
         intro="Wij werken voor bijna 30 werkgevers in Noord-Holland Noord. Hieronder enkele voorbeeldvacatures — actuele openstaande functies worden via deze pagina bijgewerkt."
       />
       <Section>
