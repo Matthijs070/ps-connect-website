@@ -1863,8 +1863,8 @@ export function OverOnsContent() {
     <>
       <PageHeader
         eyebrow="Over ons"
-        title="Drie partners, één team."
-        intro="PS-Connect is een familiebedrijf met drie eigenaren. Wij zijn niet de grootste, en willen dat ook niet zijn. Wij zijn de partij die uw bedrijf en uw seizoen kent."
+        title="Drie partners. Eén belofte."
+        intro="De uitzendsector heeft een slecht imago. Vaak terecht — en daar willen wij verandering in brengen. Bij PS-Connect doen we het bewust anders: dichtbij, persoonlijk en eerlijk naar werkgever én flexkracht. Klein gehouden zodat we elke werknemer kennen en elke afspraak kunnen waarmaken."
       />
 
       <Section>
@@ -1900,18 +1900,27 @@ export function OverOnsContent() {
           <div>
             <p className="eyebrow" style={{ marginBottom: 12 }}>Ons verhaal</p>
             <h2 className="display-m" style={{ color: c.ink900, marginBottom: 20 }}>
-              Sinds 2022 in Noord-Holland Noord.
+              Tegengeluid in de uitzendwereld.
             </h2>
             <p style={{ fontSize: 16, lineHeight: 1.6, color: c.ink700, marginBottom: 16 }}>
-              [Volledige bedrijfsgeschiedenis in te vullen] PS-Connect ontstond in
-              2022 vanuit de overtuiging dat een uitzendpartij die bollen en glas
-              kent niet via een 088-callcenter werkt. We zijn doelbewust regionaal
-              gebleven en hebben gekozen voor diepte boven breedte.
+              PS-Connect is in 2022 opgericht vanuit de overtuiging dat het beter
+              kan dan wat we te vaak in onze sector zien. Geen 088-callcenters,
+              geen onderhuur via dubieuze tussenpartijen, geen anonieme verloning
+              waar niemand verantwoordelijkheid voor neemt.
+            </p>
+            <p style={{ fontSize: 16, lineHeight: 1.6, color: c.ink700, marginBottom: 16 }}>
+              Wij geloven in korte lijnen en eerlijk werk. Pascal komt langs als er
+              een vraag is, Mark zorgt dat de loonstrook klopt, en Matthijs werkt
+              aan groei die past — niet aan groei voor de groei. Voor onze
+              werkgevers betekent dat voorspelbaarheid. Voor onze flexkrachten
+              betekent het dat ze weten waar ze aan toe zijn: salaris, huisvesting,
+              werktijden — afgesproken voor vertrek, nagekomen na aankomst.
             </p>
             <p style={{ fontSize: 16, lineHeight: 1.6, color: c.ink700 }}>
-              Vandaag werken wij voor bijna 30 klanten in Noord-Holland Noord. Onze gemiddelde
-              klantrelatie loopt al jaren door, omdat we mee weten te bewegen
-              met de seizoenen, de markt, en de werkgever.
+              Vandaag werken wij voor bijna 30 werkgevers in Noord-Holland Noord.
+              Veel van onze klantrelaties lopen al door sinds onze begintijd, omdat
+              we mee bewegen met seizoenen, markten en mensen. Niet de grootste
+              partij — en dat hoeft ook niet.
             </p>
           </div>
           <div style={{ display: 'grid', gap: 16 }}>
