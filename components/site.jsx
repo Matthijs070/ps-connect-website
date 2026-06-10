@@ -6,7 +6,7 @@
 // `c` is the JS mirror of design-system/colors_and_type.css.
 // =========================================================
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import {
   ArrowRight, Menu, X, Check,
   Sprout, Truck,
@@ -1037,6 +1037,261 @@ export function FinalCTA() {
 }
 
 // =========================================================
+// SeizoenstijdlijnAgri — interactive year-cycle for openteelt & glas
+// Klik een maand: highlights die kolom + toont detail-paneel met
+// werkzaamheden en personeelspiek per teelt.
+// VERIFY-data: intensiteit per teelt-maand en werkzaamheden per maand —
+// aan te leveren door PS-Connect operations.
+// =========================================================
+const SEIZOEN_MAANDEN = [
+  { kort: 'Jan', lang: 'Januari' }, { kort: 'Feb', lang: 'Februari' },
+  { kort: 'Mrt', lang: 'Maart' },   { kort: 'Apr', lang: 'April' },
+  { kort: 'Mei', lang: 'Mei' },     { kort: 'Jun', lang: 'Juni' },
+  { kort: 'Jul', lang: 'Juli' },    { kort: 'Aug', lang: 'Augustus' },
+  { kort: 'Sep', lang: 'September' },{ kort: 'Okt', lang: 'Oktober' },
+  { kort: 'Nov', lang: 'November' },{ kort: 'Dec', lang: 'December' },
+];
+
+const SEIZOEN_TEELTEN = [
+  { key: 'bollen',     label: 'Bollen',            dot: c.green700 },
+  { key: 'broeierij',  label: 'Broeierij',         dot: c.amber600 },
+  { key: 'vollegrond', label: 'Vollegrondsteelt',  dot: c.green500 },
+  { key: 'glas',       label: 'Glastuinbouw',      dot: c.green900 },
+];
+
+// Intensiteit personeelsinzet 0–3 per teelt per maand (VERIFY met PS-Connect).
+const SEIZOEN_INTENSITEIT = {
+  bollen:     [0, 0, 1, 2, 3, 3, 2, 2, 2, 1, 1, 0],
+  broeierij:  [3, 3, 2, 1, 0, 0, 0, 0, 0, 1, 2, 3],
+  vollegrond: [0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0],
+  glas:       [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1],
+};
+
+// Korte werkzaamheid-beschrijving per teelt per maand (VERIFY).
+const SEIZOEN_DETAILS = {
+  bollen: [
+    null, null,
+    'Voorbereiding sorteerruimtes', 'Eerste rooi voorbereiding',
+    'Mei-piek: rooi en sortering', 'Vervolg piek, transport',
+    'Sortering en verpakking', 'Sortering en verpakking',
+    'Plantvoorbereiding', 'Plantwerk', 'Plantwerk afronding', null,
+  ],
+  broeierij: [
+    'Pieksortering en pluk', 'Pieksortering en pluk',
+    'Afbouw winterpiek', 'Onderhoud kassen',
+    null, null, null, null, null,
+    'Opstart broeiseizoen', 'Plantwerk en opstart', 'Eerste pieken',
+  ],
+  vollegrond: [
+    null, null,
+    'Grondvoorbereiding', 'Plant- en zaaiwerk',
+    'Onderhoud en wieden', 'Onderhoud en wieden',
+    'Oogst start', 'Oogstpiek',
+    'Oogst en sortering', 'Oogst afronding', 'Inpakwerk', null,
+  ],
+  glas: [
+    'Doorlopend pluk- en verzorgingswerk', 'Doorlopend pluk- en verzorgingswerk',
+    'Doorlopend pluk- en verzorgingswerk', 'Plantwissel en opstart',
+    'Volledig productieseizoen', 'Volledig productieseizoen',
+    'Volledig productieseizoen', 'Volledig productieseizoen',
+    'Volledig productieseizoen', 'Volledig productieseizoen, eind-pieken',
+    'Afronding teelt, plantwissel', 'Voorbereiding nieuw seizoen',
+  ],
+};
+
+function seizoenCellColor(level) {
+  if (level === 0) return c.ink100;
+  if (level === 1) return c.green100;
+  if (level === 2) return c.green400;
+  return c.amber500; // niveau 3 = piek
+}
+
+function seizoenLevelLabel(level) {
+  return ['—', 'Laag', 'Middel', 'Piek'][level] || '—';
+}
+
+export function SeizoenstijdlijnAgri() {
+  const [selected, setSelected] = useState(null); // 0..11
+
+  return (
+    <div>
+      <div style={{ marginBottom: 20 }}>
+        <p className="eyebrow" style={{ marginBottom: 8 }}>Seizoenstijdlijn</p>
+        <h3 style={{ fontSize: 22, fontWeight: 800, color: c.ink900, marginBottom: 8 }}>
+          Personeelsinzet over het jaar.
+        </h3>
+        <p style={{ fontSize: 15, lineHeight: 1.55, color: c.ink600, maxWidth: 680 }}>
+          Klik op een maand voor de typische werkzaamheden en piekinzet per teelt.
+          De cellen geven globale intensiteit weer; voor uw specifieke situatie
+          stellen wij een planning op maat op.
+        </p>
+      </div>
+
+      {/* Tijdlijn grid */}
+      <div style={{
+        overflowX: 'auto',
+        border: `1px solid ${c.ink200}`,
+        borderRadius: 14,
+        background: c.white,
+        padding: 12,
+      }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '140px repeat(12, minmax(44px, 1fr))',
+          gap: 4,
+          minWidth: 700,
+        }}>
+          {/* Header row: month buttons */}
+          <div />
+          {SEIZOEN_MAANDEN.map((m, i) => {
+            const active = selected === i;
+            return (
+              <button
+                key={m.kort}
+                onClick={() => setSelected(active ? null : i)}
+                aria-pressed={active}
+                aria-label={`Selecteer ${m.lang}`}
+                style={{
+                  background: active ? c.green800 : c.ink50,
+                  color: active ? c.white : c.ink700,
+                  border: `1px solid ${active ? c.green800 : c.ink200}`,
+                  borderRadius: 8,
+                  padding: '8px 4px',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: 'all 160ms cubic-bezier(0.22,1,0.36,1)',
+                }}
+              >
+                {m.kort}
+              </button>
+            );
+          })}
+
+          {/* Teelt rows */}
+          {SEIZOEN_TEELTEN.map(teelt => (
+            <Fragment key={teelt.key}>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                fontSize: 13, fontWeight: 700, color: c.ink800,
+                padding: '0 4px',
+              }}>
+                <span style={{
+                  display: 'inline-block', width: 10, height: 10, borderRadius: '50%',
+                  background: teelt.dot, flexShrink: 0,
+                }} />
+                {teelt.label}
+              </div>
+              {SEIZOEN_INTENSITEIT[teelt.key].map((level, i) => {
+                const active = selected === i;
+                return (
+                  <button
+                    key={`${teelt.key}-${i}`}
+                    onClick={() => setSelected(active ? null : i)}
+                    aria-label={`${teelt.label}, ${SEIZOEN_MAANDEN[i].lang}: ${seizoenLevelLabel(level)}`}
+                    title={`${SEIZOEN_MAANDEN[i].lang} · ${seizoenLevelLabel(level)}`}
+                    style={{
+                      height: 36,
+                      background: seizoenCellColor(level),
+                      border: active ? `2px solid ${c.green800}` : `1px solid ${c.ink200}`,
+                      borderRadius: 6,
+                      cursor: 'pointer',
+                      padding: 0,
+                      transition: 'transform 160ms cubic-bezier(0.22,1,0.36,1)',
+                      transform: active ? 'scale(1.08)' : 'scale(1)',
+                    }}
+                  />
+                );
+              })}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div style={{
+        display: 'flex', flexWrap: 'wrap', gap: 16,
+        marginTop: 16, fontSize: 12, color: c.ink600,
+        alignItems: 'center',
+      }}>
+        <span style={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: c.ink500 }}>
+          Intensiteit:
+        </span>
+        {[0, 1, 2, 3].map(lvl => (
+          <span key={lvl} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <span style={{
+              width: 16, height: 16, borderRadius: 4,
+              background: seizoenCellColor(lvl),
+              border: `1px solid ${c.ink200}`,
+            }} />
+            {seizoenLevelLabel(lvl)}
+          </span>
+        ))}
+      </div>
+
+      {/* Detail panel */}
+      {selected !== null && (
+        <div style={{
+          marginTop: 24,
+          background: c.green50,
+          border: `1px solid ${c.green200}`,
+          borderRadius: 14,
+          padding: 24,
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, marginBottom: 16 }}>
+            <h4 style={{ fontSize: 18, fontWeight: 800, color: c.ink900, marginBottom: 0 }}>
+              {SEIZOEN_MAANDEN[selected].lang} — typische inzet
+            </h4>
+            <button
+              onClick={() => setSelected(null)}
+              aria-label="Sluit detailpaneel"
+              style={{
+                background: 'transparent', border: 'none', cursor: 'pointer',
+                color: c.ink500, padding: 4, display: 'flex',
+              }}
+            >
+              <X size={18} />
+            </button>
+          </div>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {SEIZOEN_TEELTEN.map(teelt => {
+              const lvl = SEIZOEN_INTENSITEIT[teelt.key][selected];
+              const detail = SEIZOEN_DETAILS[teelt.key][selected];
+              return (
+                <li key={teelt.key} style={{
+                  display: 'grid',
+                  gridTemplateColumns: '14px 130px 60px 1fr',
+                  gap: 12,
+                  alignItems: 'baseline',
+                  fontSize: 14,
+                  color: c.ink700,
+                }}>
+                  <span style={{
+                    width: 10, height: 10, borderRadius: '50%',
+                    background: teelt.dot, marginTop: 4,
+                  }} />
+                  <span style={{ fontWeight: 700, color: c.ink900 }}>{teelt.label}</span>
+                  <span style={{
+                    fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em',
+                    color: lvl === 3 ? c.amber700 : lvl >= 1 ? c.green800 : c.ink400,
+                  }}>
+                    {seizoenLevelLabel(lvl)}
+                  </span>
+                  <span>{detail || <em style={{ color: c.ink400 }}>geen typische inzet</em>}</span>
+                </li>
+              );
+            })}
+          </ul>
+          <p style={{ marginTop: 16, fontSize: 12, color: c.ink500, fontStyle: 'italic' }}>
+            [VERIFY: bevestig intensiteit en werkzaamheden per teelt per maand.]
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// =========================================================
 // PAGE: Voor werkgevers
 // =========================================================
 export function VoorWerkgeversContent() {
@@ -1089,6 +1344,10 @@ export function VoorWerkgeversContent() {
               <FactRow label="Huisvesting" value="Veelal nodig, wij regelen" />
             </div>
           </div>
+        </div>
+
+        <div style={{ marginTop: 64 }}>
+          <SeizoenstijdlijnAgri />
         </div>
       </Section>
 
