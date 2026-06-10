@@ -384,14 +384,15 @@ export function Hero() {
         gap: 48, alignItems: 'center',
       }}>
         <div>
-          <p className="eyebrow">Uitzendpartner · Noord-Holland Noord · Sinds 2022</p>
+          <p className="eyebrow">Uitzendpartner · Noord-Holland Noord · Schagen</p>
           <h1 className="display-l" style={{ marginTop: 16, marginBottom: 24, color: c.ink900 }}>
-            Bollen, glastuinbouw, Noord-Holland Noord.<br />Sinds 2022.
+            Personeel nodig?<br />Bel Pascal even.
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.55, maxWidth: 560, color: c.ink700, marginBottom: 32 }}>
-            Wij koppelen 19 werkgevers in agri, tuinbouw en logistiek aan
-            gemotiveerde flexkrachten. Eigen huisvesting, eigen back-office,
-            en Pascal aan de lijn als u belt.
+            Wij koppelen bijna 30 werkgevers in agri en tuinbouw, logistiek
+            en distributie, en facilitair aan gemotiveerde flexkrachten.
+            Huisvesting geregeld — eigen locaties én vaste partners. Eigen
+            back-office, en Pascal aan de lijn als u belt.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <a href="/contact" className="btn btn-primary">
@@ -403,7 +404,8 @@ export function Hero() {
           </div>
         </div>
         <div style={{ display: 'grid', gap: 16 }}>
-          <StatTile value="19" label="Actieve klanten in Noord-Holland Noord" />
+          {/* VERIFY: bevestig "bijna 30" werkgevers — exact aantal voor go-live */}
+          <StatTile value="~30" label="Actieve werkgevers in onze regio" />
           <StatTile value="4,2 jr" label="Gemiddelde samenwerking" />
           <StatTile value="2022" label="Opgericht in Noord-Holland Noord" />
         </div>
@@ -1342,14 +1344,14 @@ export function OverOnsContent() {
               gebleven en hebben gekozen voor diepte boven breedte.
             </p>
             <p style={{ fontSize: 16, lineHeight: 1.6, color: c.ink700 }}>
-              Vandaag werken wij voor 19 klanten in Noord-Holland Noord. Onze gemiddelde
+              Vandaag werken wij voor bijna 30 klanten in Noord-Holland Noord. Onze gemiddelde
               klantrelatie loopt al jaren door, omdat we mee weten te bewegen
               met de seizoenen, de markt, en de werkgever.
             </p>
           </div>
           <div style={{ display: 'grid', gap: 16 }}>
             <StatTile value="2022" label="Opgericht in Noord-Holland Noord" />
-            <StatTile value="19" label="Actieve klanten" />
+            <StatTile value="~30" label="Actieve klanten" />
             <StatTile value="3" label="Sectoren waarin wij specialist zijn" />
           </div>
         </div>
@@ -1440,7 +1442,7 @@ export function VacaturesContent() {
       <PageHeader
         eyebrow="Vacatures"
         title="Werk in agri, tuinbouw, logistiek en horeca."
-        intro="Wij werken voor 19 werkgevers in Noord-Holland Noord. Hieronder enkele voorbeeldvacatures — actuele openstaande functies worden via deze pagina bijgewerkt."
+        intro="Wij werken voor bijna 30 werkgevers in Noord-Holland Noord. Hieronder enkele voorbeeldvacatures — actuele openstaande functies worden via deze pagina bijgewerkt."
       />
       <Section>
         <div style={{ marginBottom: 32, fontSize: 14, color: c.ink500, fontStyle: 'italic' }}>
@@ -1487,13 +1489,13 @@ export function WerkenBijContent() {
       <PageHeader
         eyebrow="Werken bij PS-Connect"
         title="Werk in Noord-Holland Noord, met huisvesting als dat helpt."
-        intro="Wij koppelen flexkrachten aan 19 werkgevers in Noord-Holland Noord. Voor wie van buiten komt, regelen wij huisvesting binnen ons eigen woningbestand."
+        intro="Wij koppelen flexkrachten aan bijna 30 werkgevers in Noord-Holland Noord. Voor wie van buiten komt, regelen wij huisvesting binnen ons eigen woningbestand of via vaste partners."
       />
 
       <Section>
         <div className="wb-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24 }}>
           <Benefit icon={<Briefcase size={26} />} title="Echt werk, echte werkgevers"
-            body="Wij sturen u niet de stad door tussen acht verschillende uitzendpartijen. U werkt voor één van onze 19 klanten, met een vast aanspreekpunt." />
+            body="Wij sturen u niet de stad door tussen acht verschillende uitzendpartijen. U werkt voor één van onze klanten in de regio, met een vast aanspreekpunt." />
           <Benefit icon={<HomeIcon size={26} />} title="Huisvesting voor wie van buiten komt"
             body="Eigen woningbestand in Noord-Holland Noord. SNF-norm waar van toepassing. Geen onderhuur, geen Airbnb-improvisatie." />
           <Benefit icon={<Heart size={26} />} title="Korte lijn"
