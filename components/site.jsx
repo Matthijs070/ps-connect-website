@@ -300,6 +300,46 @@ function FooterCol({ title, links }) {
 // =========================================================
 // PageHeader — used on all non-home pages
 // =========================================================
+// =========================================================
+// ImageSlot — VERIFY placeholder voor foto's die nog moeten worden
+// aangeleverd. Toont een gedashte container met label.
+// =========================================================
+export function ImageSlot({ ratio = '16/9', label, variant = 'default', rounded = 'md' }) {
+  const radius = rounded === 'full' ? '50%' : rounded === 'lg' ? 16 : 12;
+  return (
+    <div
+      role="img"
+      aria-label={`Placeholder: ${label}`}
+      style={{
+        aspectRatio: ratio,
+        width: '100%',
+        background: variant === 'subtle' ? c.ink50 : c.green50,
+        border: `2px dashed ${variant === 'subtle' ? c.ink300 : c.green300}`,
+        borderRadius: radius,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        padding: 16,
+        textAlign: 'center',
+        overflow: 'hidden',
+      }}
+    >
+      <span style={{
+        fontSize: 10, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
+        color: c.amber700, background: c.amber50, padding: '3px 8px', borderRadius: 999,
+        border: `1px solid ${c.amber500}`,
+      }}>
+        VERIFY · foto
+      </span>
+      <span style={{ fontSize: 12, color: c.ink600, fontStyle: 'italic', maxWidth: 240, lineHeight: 1.4 }}>
+        {label}
+      </span>
+    </div>
+  );
+}
+
 export function PageHeader({ eyebrow, title, intro }) {
   return (
     <section style={{
@@ -404,6 +444,10 @@ export function Hero() {
           </div>
         </div>
         <div style={{ display: 'grid', gap: 16 }}>
+          <ImageSlot
+            ratio="4/3"
+            label="VERIFY: warme regiofoto — bijv. Pascal op locatie bij een klant in Noord-Holland Noord, of bollenveld bij Schagen tijdens mei-piek."
+          />
           {/* VERIFY: bevestig "bijna 30" werkgevers — exact aantal voor go-live */}
           <StatTile value="~30" label="Actieve werkgevers in onze regio" />
           <StatTile value="4,2 jr" label="Gemiddelde samenwerking" />
@@ -422,33 +466,40 @@ export function Hero() {
 // =========================================================
 // HOMEPAGE — Section 2: Sectoren
 // =========================================================
-function SectorCard({ icon, title, body, href }) {
+function SectorCard({ icon, title, body, href, imageLabel }) {
   return (
     <a href={href} style={{
-      display: 'block',
+      display: 'flex',
+      flexDirection: 'column',
       background: c.white,
       border: `1px solid ${c.ink200}`,
       borderRadius: 16,
-      padding: 32,
+      overflow: 'hidden',
       textDecoration: 'none',
       color: c.ink900,
       transition: 'all 220ms cubic-bezier(0.22,1,0.36,1)',
+      height: '100%',
     }}
       onMouseEnter={(e) => { e.currentTarget.style.borderColor = c.green700; e.currentTarget.style.transform = 'translateY(-2px)'; }}
       onMouseLeave={(e) => { e.currentTarget.style.borderColor = c.ink200; e.currentTarget.style.transform = 'translateY(0)'; }}
     >
-      <div style={{
-        width: 56, height: 56, borderRadius: 12,
-        background: c.green100, color: c.green800,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        marginBottom: 20,
-      }}>
-        {icon}
+      <div style={{ padding: 12, paddingBottom: 0 }}>
+        <ImageSlot ratio="16/9" label={imageLabel} variant="subtle" />
       </div>
-      <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 12, color: c.ink900 }}>{title}</h3>
-      <p style={{ fontSize: 15, lineHeight: 1.55, color: c.ink600, marginBottom: 20 }}>{body}</p>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: c.green700, fontSize: 14, fontWeight: 600 }}>
-        Meer over deze sector <ChevronRight size={14} />
+      <div style={{ padding: 24, paddingTop: 20, display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+        <div style={{
+          width: 48, height: 48, borderRadius: 12,
+          background: c.green100, color: c.green800,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          marginBottom: 16,
+        }}>
+          {icon}
+        </div>
+        <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 10, color: c.ink900 }}>{title}</h3>
+        <p style={{ fontSize: 15, lineHeight: 1.55, color: c.ink600, marginBottom: 20, flexGrow: 1 }}>{body}</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: c.green700, fontSize: 14, fontWeight: 600 }}>
+          Meer over deze sector <ChevronRight size={14} />
+        </div>
       </div>
     </a>
   );
@@ -470,18 +521,21 @@ export function SectorenSection() {
           title="Openteelt & (glas)tuinbouw"
           body="Bollen, broeierij, vollegrondsteelt en glastuinbouw — wij plannen op het ritme van het seizoen. Mei-pieken, bollenrooi, knolontsmetting, gerbera-pluk: onze flexkrachten zijn ingewerkt voordat de schaal omhoog gaat."
           href="/voor-werkgevers#openteelt-tuinbouw"
+          imageLabel="VERIFY: foto bollenveld of sorteerlijn klant in Noord-Holland Noord."
         />
         <SectorCard
           icon={<Truck size={28} strokeWidth={2} />}
           title="Logistiek & distributie"
           body="Magazijn-, dock-, en routewerk. RDC, DC en cross-dock. Wij plannen rond uw dock-windows en zetten flexkrachten in die ingewerkt zijn op WMS en scanners."
           href="/voor-werkgevers#logistiek-distributie"
+          imageLabel="VERIFY: foto magazijn of dock-werkzaamheden bij een logistieke klant."
         />
         <SectorCard
           icon={<Building2 size={28} strokeWidth={2} />}
           title="Facilitair"
           body="Schoonmaak, hospitality-ondersteuning en algemene facilitaire dienstverlening. Inzetbaar in vaste roosters of voor projecten en pieken."
           href="/voor-werkgevers#facilitair"
+          imageLabel="VERIFY: foto facilitaire werkzaamheden — schoonmaak, hospitality of receptie."
         />
       </div>
       <style>{`
@@ -1780,7 +1834,7 @@ export function CasesContent() {
 // =========================================================
 // PAGE: Over ons
 // =========================================================
-function TeamCard({ name, role, initials, bio }) {
+function TeamCard({ name, role, bio }) {
   return (
     <div style={{
       background: c.white,
@@ -1788,16 +1842,12 @@ function TeamCard({ name, role, initials, bio }) {
       borderRadius: 16,
       padding: 28,
     }}>
-      <div style={{
-        width: 64, height: 64, borderRadius: '50%',
-        background: c.green700,
-        color: c.white,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: 'var(--font-display)',
-        fontSize: 22, fontWeight: 800,
-        marginBottom: 20,
-      }}>
-        {initials}
+      <div style={{ width: 88, height: 88, marginBottom: 20 }}>
+        <ImageSlot
+          ratio="1/1"
+          rounded="full"
+          label={`Portret ${name}`}
+        />
       </div>
       <h3 style={{ fontSize: 20, fontWeight: 700, color: c.ink900, marginBottom: 4 }}>{name}</h3>
       <div style={{ fontSize: 13, color: c.green700, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 16 }}>
@@ -1824,19 +1874,16 @@ export function OverOnsContent() {
         }}>
           <TeamCard
             name="Pascal"
-            initials="P"
             role="Partner · Operationeel"
             bio="[Bio in te vullen] Pascal is het eerste aanspreekpunt voor onze klanten. Hij is bij het eerste gesprek, hij is bij de eerste werkdag, en hij belt als er een vraag is."
           />
           <TeamCard
             name="Mark"
-            initials="M"
             role="Partner · Finance & Compliance"
             bio="[Bio in te vullen] Mark verzorgt de juridische, financiële en compliance-kant. Verantwoordelijk voor SNA-traject, NEN-norm en de eigen back-office."
           />
           <TeamCard
             name="Matthijs"
-            initials="MT"
             role="Partner · Strategie & Groei"
             bio="[Bio in te vullen] Matthijs werkt aan de bredere strategie: klantontwikkeling, sectorale verbreding, en de relatie met opdrachtgevers buiten de kerngroep."
           />
@@ -1868,9 +1915,12 @@ export function OverOnsContent() {
             </p>
           </div>
           <div style={{ display: 'grid', gap: 16 }}>
+            <ImageSlot
+              ratio="4/3"
+              label="VERIFY: team-foto Pascal, Mark en Matthijs of sfeerbeeld vestiging Schagen."
+            />
             <StatTile value="2022" label="Opgericht in Noord-Holland Noord" />
             <StatTile value="~30" label="Actieve klanten" />
-            <StatTile value="3" label="Sectoren waarin wij specialist zijn" />
           </div>
         </div>
         <style>{`
